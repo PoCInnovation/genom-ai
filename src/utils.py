@@ -40,6 +40,7 @@ class Vector2D:
 class SimulationParameters:
     size: Vector2D
     cell_count: int
+    step_per_gen: int
 
 
 

@@ -61,9 +61,11 @@ class Environment:
     def clear_map(self):
         self.map = [[None for _ in range(self.size.x)] for _ in range(self.size.y)]
 
-    def render(self):
+    def render(self, actual_gen, actual_step):
         # convert objects to json-proof objects
         return send_dict({
             "map": [[1 if self.map[y][x] is not None else 0 for x in range(self.size.x)] for y in range(self.size.y)],
-            "params": convert_params_to_dict(self.params)
+            "params": convert_params_to_dict(self.params),
+            "actual_gen": actual_gen,
+            "actual_step": actual_step,
         })

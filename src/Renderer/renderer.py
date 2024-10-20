@@ -36,8 +36,8 @@ class WindowSimulation(pyglet.window.Window):
         params = convert_dict_to_params(input_dict["params"])
         map_size = params.size
         
-        base_grid_pos = Vector2D(200, 200)
-        base_grid_size = Vector2D(400, 400)
+        base_grid_pos = Vector2D(100, 150)
+        base_grid_size = Vector2D(500, 500)
         if map_size.x < map_size.y:
             base_grid_size.x /= map_size.y/map_size.x
         elif map_size.y < map_size.x:
@@ -45,8 +45,10 @@ class WindowSimulation(pyglet.window.Window):
         
         window.clear()
         batch = pyglet.graphics.Batch()
+        background = pyglet.shapes.Rectangle(0, 0, width=window_size.x, height=window_size.y, color=(140, 140, 140), batch=batch)
+        map_rectangle = pyglet.shapes.Rectangle(base_grid_pos.x, window_size.y - base_grid_pos.y, width=base_grid_size.x, height=-base_grid_size.y, color=(190, 190, 190), batch=batch)
+        
         shape_list = []
-        shape_list.append(pyglet.shapes.Rectangle(base_grid_pos.x, window_size.y - base_grid_pos.y, width=base_grid_size.x, height=-base_grid_size.y, color=(120, 120, 120), batch=batch))
         for y in range(map_size.y):
             for x in range(map_size.x):
                 if map[y][x] == 1:
@@ -54,11 +56,27 @@ class WindowSimulation(pyglet.window.Window):
                     cell_y = window_size.y - (base_grid_pos.y + ((y+0.5)/map_size.y*base_grid_size.y))
                     radius = min(base_grid_size.x/map_size.x/2, base_grid_size.y/map_size.y/2)
                     shape_list.append(pyglet.shapes.Circle(cell_x, cell_y, radius=radius, color=(25, 200, 15), batch=batch))
+        
+        label_info = pyglet.text.Label(f"Gen {input_dict['actual_gen']}", x = base_grid_pos.x + base_grid_size.x/2, y = window_size.y - (base_grid_pos.y - 30), color = (0, 0, 0), font_size=28, anchor_x="center")
+        label_params = self.create_label_params(640, 630, params, input_dict["actual_gen"], input_dict["actual_step"])
+        
+        background.draw()
+        map_rectangle.draw()
         batch.draw()
+        label_info.draw()
+        label_params.draw()
+
+    def create_label_params(self, x, y, params, actual_gen, actual_step):
+        text = (
+            f"World size:\t\t{params.size.x}x{params.size.y}\n"
+            f"Population:\t\t{params.cell_count}\n"
+            f"Steps/gen:\t\t{params.step_per_gen}\n"
+        )
+        return pyglet.text.Label(text, x, y, multiline=True, width=400, color=(0, 0, 0), font_size=20)
 
 
 
-window_size = Vector2D(800, 800)
+window_size = Vector2D(1000, 800)
 window = WindowSimulation(window_size)
 
 
