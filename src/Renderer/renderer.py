@@ -50,7 +50,10 @@ class WindowSimulation(pyglet.window.Window):
         for y in range(map_size.y):
             for x in range(map_size.x):
                 if map[y][x] == 1:
-                    shape_list.append(pyglet.shapes.Circle(base_grid_pos.x + ((x+0.5)/map_size.x*base_grid_size.x), window_size.y - (base_grid_pos.y + ((y+0.5)/map_size.y*base_grid_size.y)), radius=min(base_grid_size.x/map_size.x/2, base_grid_size.y/map_size.y/2), color=(25, 200, 15), batch=batch))
+                    cell_x = base_grid_pos.x + ((x+0.5)/map_size.x*base_grid_size.x)
+                    cell_y = window_size.y - (base_grid_pos.y + ((y+0.5)/map_size.y*base_grid_size.y))
+                    radius = min(base_grid_size.x/map_size.x/2, base_grid_size.y/map_size.y/2)
+                    shape_list.append(pyglet.shapes.Circle(cell_x, cell_y, radius=radius, color=(25, 200, 15), batch=batch))
         batch.draw()
 
 
