@@ -1,5 +1,6 @@
 from random import randint
 from utils import Vector2D
+from utils import convert_params_to_dict
 import socket
 import json
 
@@ -19,9 +20,10 @@ def send_dict(data):
 
 
 class Environment:
-    def __init__(self, size, cell_count):
-        self.size = size
-        self.cell_count = cell_count
+    def __init__(self, params):
+        self.params = params
+        self.size = params.size
+        self.cell_count = params.cell_count
         self.map = [[None for _ in range(self.size.x)] for _ in range(self.size.y)]
     
     def add_cell(self, cell, pos):
@@ -63,5 +65,5 @@ class Environment:
         # convert objects to json-proof objects
         return send_dict({
             "map": [[1 if self.map[y][x] is not None else 0 for x in range(self.size.x)] for y in range(self.size.y)],
-            "size": [self.size.x, self.size.y]
+            "params": convert_params_to_dict(self.params)
         })

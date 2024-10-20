@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils import Vector2D
+from utils import Vector2D, convert_dict_to_params
 
 
 
@@ -33,8 +33,8 @@ class WindowSimulation(pyglet.window.Window):
     def on_draw(self):
         input_dict = receive_dict()
         map = input_dict["map"]
-        map_size = input_dict["size"]
-        map_size = Vector2D(map_size[0], map_size[1])
+        params = convert_dict_to_params(input_dict["params"])
+        map_size = params.size
         
         base_grid_pos = Vector2D(200, 200)
         base_grid_size = Vector2D(400, 400)
