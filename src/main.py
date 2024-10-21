@@ -6,7 +6,7 @@ import time
 
 
 
-def main(params):
+def main(params: SimulationParameters) -> None:
     env = Environment(params)
     cell_list = [Cell(env) for _ in range(params.cell_count)]
     actual_gen = 0

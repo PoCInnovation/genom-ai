@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 # Simple Vector, accept basic math operation (+, -, *, /) and print, accept both Vector2D(x, y) and Vector2D([x, y])
 class Vector2D:
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         if len(args) == 1 and isinstance(args[0], (list, tuple)) and len(args[0]) == 2:
             self.x, self.y = args[0]
         elif len(args) == 2:
@@ -32,7 +32,7 @@ class Vector2D:
             return Vector2D(self.x / other.x, self.y / other.y)
     __rtrue_div__ = __true_div__
     
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{{Vector2D x={self.x} y={self.y}}}"
 
 
@@ -44,7 +44,7 @@ class SimulationParameters:
 
 
 
-def convert_params_to_dict(params):
+def convert_params_to_dict(params: SimulationParameters) -> dict:
     params_attr = [a for a in dir(params) if not a.startswith('__') and not callable(getattr(params, a))]
     dict_ = {attr: getattr(params, attr) for attr in params_attr}
     for key, val in dict_.items():
@@ -53,7 +53,7 @@ def convert_params_to_dict(params):
     return dict_
 
 
-def convert_dict_to_params(dict_):
+def convert_dict_to_params(dict_: dict) -> SimulationParameters:
     for key, val in dict_.items():
         if isinstance(val, (list, tuple)) and len(val) == 2:
             dict_[key] = Vector2D(val)
