@@ -1,7 +1,7 @@
 from random import randint
 from Cell.cell import Cell
-from utils import Vector2D, SimulationParameters
-from utils import convert_params_to_dict
+from geometry import Vector2D
+from simulation_parameters import SimulationParameters, convert_params_to_dict
 import socket
 import json
 
@@ -30,7 +30,7 @@ class Environment:
     def add_cell(self, cell: Cell, pos: Vector2D) -> None:
         self.map[pos.y][pos.x] = cell
         cell.pos = pos
-        
+    
     def add_cell_to_random_pos(self, cell: Cell) -> None:
         pos = Vector2D(randint(0, self.size.x - 1), randint(0, self.size.y - 1))
         while self.is_pos_full(pos):

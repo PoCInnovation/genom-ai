@@ -1,4 +1,5 @@
-from utils import SimulationParameters, Vector2D
+from geometry import Vector2D
+from simulation_parameters import SimulationParameters
 from Environment.environment import Environment
 from Cell.cell import Cell
 import multiprocessing
@@ -16,13 +17,13 @@ def main(params: SimulationParameters) -> None:
         for cell in cell_list:
             env.add_cell_to_random_pos(cell)
         for actual_step in range(params.step_per_gen):
+            time.sleep(0.1)
             pipe_broken = env.render(actual_gen, actual_step)
             if pipe_broken:
                 print("pipe_broken (happen if you lose renderer window focus)(this error is temporary)(normally)")
                 return
             for cell in cell_list:
                 cell.process()
-            time.sleep(0.1)
         actual_gen += 1
 
 

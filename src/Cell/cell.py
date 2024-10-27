@@ -1,10 +1,9 @@
-from utils import Vector2D
-from Environment.environment import Environment
+from geometry import Vector2D
 
 
 
 class Cell:
-    def __init__(self, env: Environment, pos = Vector2D(0, 0)) -> None:
+    def __init__(self, env, pos = Vector2D(0, 0)) -> None:
         self.env = env
         self.pos = pos
     

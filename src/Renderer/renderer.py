@@ -9,7 +9,8 @@ import os
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from utils import SimulationParameters, Vector2D, convert_dict_to_params
+from geometry import Vector2D
+from simulation_parameters import convert_dict_to_params, SimulationParameters
 
 
 
