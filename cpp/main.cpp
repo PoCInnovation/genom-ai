@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "simulation_parameters.hpp"
+#include "render.hpp"
 #include "loop.hpp"
 
 using namespace std;
@@ -12,5 +13,6 @@ int main()
         window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
     srand(time(0));
     loop(window);
+    delete window;
     return 0;
 }

@@ -4,8 +4,11 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <vector>
 #include "cell.hpp"
+#include "environnement.hpp"
 
-void draw_cells(std::vector<std::vector<Cell *>> &cell_list, sf::RenderWindow *window);
-void render(std::vector<std::vector<Cell *>> &cell_list, sf::RenderWindow *window);
+#define WINDOW_SIZE_X 800
+#define WINDOW_SIZE_Y 800
+
+void render(Environnement &env, sf::RenderWindow *window);
 
 #endif

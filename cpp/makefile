@@ -6,9 +6,10 @@ SFML_LIB =			-lsfml-graphics -lsfml-window -lsfml-system
 SFML_INCLUDE_PATH =	$(SFML_PATH)/include
 SFML_LIB_PATH =		$(SFML_PATH)/lib
 
-SRC =				main.cpp				\
-					loop.cpp				\
-					Renderer/render.cpp		\
+SRC =				main.cpp						\
+					loop.cpp						\
+					Renderer/render.cpp				\
+					Environnement/environnement.cpp	\
 					Cell/cell.cpp
 
 OBJ =				$(SRC:.cpp=.o)
