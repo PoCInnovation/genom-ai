@@ -1,22 +1,26 @@
-NAME = sfml-app
+NAME =				genom-ai
 
-SFML_PATH = sfml
-SFML_LIB =	-lsfml-graphics -lsfml-window -lsfml-system
+SFML_PATH =			sfml
+SFML_LIB =			-lsfml-graphics -lsfml-window -lsfml-system
 
-SFML_INCLUDE_PATH = $(SFML_PATH)/include
-SFML_LIB_PATH = $(SFML_PATH)/lib
+SFML_INCLUDE_PATH =	$(SFML_PATH)/include
+SFML_LIB_PATH =		$(SFML_PATH)/lib
 
-SRC = main.cpp
-OBJ = $(SRC:.cpp=.o)
+SRC =				main.cpp				\
+					loop.cpp				\
+					Renderer/render.cpp		\
+					Cell/cell.cpp
 
-# add SFML path to the above rule
+OBJ =				$(SRC:.cpp=.o)
+
+
 %.o: %.cpp
-	g++ -c $< -o $@ -I $(SFML_INCLUDE_PATH)
+	g++ -c $< -o $@ -I $(SFML_INCLUDE_PATH) -I include
 
 all: $(OBJ)
-	g++ $(OBJ) -o $(NAME) -I $(SFML_INCLUDE_PATH) -L $(SFML_LIB_PATH) $(SFML_LIB)
+	g++ $(OBJ) -o $(NAME) -I $(SFML_INCLUDE_PATH) -I include -L $(SFML_LIB_PATH) $(SFML_LIB)
 
-test: all
+test: re
 	LD_LIBRARY_PATH=$(SFML_LIB_PATH) ./$(NAME)
 	$(MAKE) clean
 

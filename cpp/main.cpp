@@ -1,24 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include "simulation_parameters.hpp"
+#include "loop.hpp"
+
+using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow *window = nullptr;
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-
+    if (RENDER)
+        window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
+    srand(time(0));
+    loop(window);
     return 0;
 }
