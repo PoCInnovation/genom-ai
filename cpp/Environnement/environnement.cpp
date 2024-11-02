@@ -22,7 +22,7 @@ void Environnement::clear()
     this->cell_list.clear();
 }
 
-void Environnement::add_cell_to_rand_pos()
+void Environnement::create_cell_to_rand_pos()
 {
     Cell *cell;
     int x = rand() % GRID_SIZE_X;
@@ -33,7 +33,23 @@ void Environnement::add_cell_to_rand_pos()
         y = rand() % GRID_SIZE_Y;
     }
     cell = new Cell(x, y);
+    // speed is -1, 0 or 1
+    cell->setSpeed((rand() % 3) - 1, (rand() % 3) - 1);
     this->map[y][x] = cell;
+    this->cell_list.push_back(cell);
+}
+
+void Environnement::add_cell_to_rand_pos(Cell *cell)
+{
+    int x = rand() % GRID_SIZE_X;
+    int y = rand() % GRID_SIZE_Y;
+
+    while (this->map[y][x] != nullptr) {
+        x = rand() % GRID_SIZE_X;
+        y = rand() % GRID_SIZE_Y;
+    }
+    this->map[y][x] = cell;
+    cell->setPos(x, y);
     this->cell_list.push_back(cell);
 }
 

@@ -10,6 +10,8 @@ SRC =				main.cpp						\
 					loop.cpp						\
 					Renderer/render.cpp				\
 					Environnement/environnement.cpp	\
+					Simulation/die.cpp				\
+					Simulation/reproduction.cpp		\
 					Cell/cell.cpp
 
 OBJ =				$(SRC:.cpp=.o)
