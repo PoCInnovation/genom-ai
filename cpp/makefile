@@ -12,7 +12,10 @@ SRC =				main.cpp						\
 					Environnement/environnement.cpp	\
 					Simulation/die.cpp				\
 					Simulation/reproduction.cpp		\
-					Cell/cell.cpp
+					Cell/cell.cpp					\
+					Genome/genome.cpp				\
+					Neurone/neuron.cpp				\
+					Neurone/neuron_link.cpp
 
 OBJ =				$(SRC:.cpp=.o)
 
