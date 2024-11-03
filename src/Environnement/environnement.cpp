@@ -71,7 +71,7 @@ void Environnement::move_cell(Cell *cell, int x_offset, int y_offset)
 
 Environnement::~Environnement()
 {
-    for (auto& cellPtr : cell_list) {
+    for (Cell *cellPtr : cell_list) {
         delete cellPtr;
         cellPtr = nullptr;
     }
