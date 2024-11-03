@@ -25,7 +25,7 @@ static int compute_gen(Environnement &env, sf::RenderWindow *window, int gen)
     for (int j = 0; j < STEP_PER_GEN; j++){
         compute_step(env);
         if (gen >= GEN_TO_START_RENDER)
-            render(env, window);
+            render(env, window, gen);
     }
     return 0;
 }

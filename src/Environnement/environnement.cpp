@@ -62,10 +62,15 @@ bool Environnement::is_pos_free(int x, int y)
 
 void Environnement::move_cell(Cell *cell, int x_offset, int y_offset)
 {
-    if (this->is_pos_free(cell->x + x_offset, cell->y + y_offset)) {
-        this->map[cell->y + y_offset][cell->x + x_offset] = cell;
+    if (this->is_pos_free(cell->x + x_offset, cell->y)) {
+        this->map[cell->y][cell->x + x_offset] = cell;
         this->map[cell->y][cell->x] = nullptr;
-        cell->setPos(cell->x + x_offset, cell->y + y_offset);
+        cell->setPos(cell->x + x_offset, cell->y);
+    }
+    if (this->is_pos_free(cell->x, cell->y + y_offset)) {
+        this->map[cell->y + y_offset][cell->x] = cell;
+        this->map[cell->y][cell->x] = nullptr;
+        cell->setPos(cell->x, cell->y + y_offset);
     }
 }
 
