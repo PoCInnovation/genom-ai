@@ -18,6 +18,8 @@ class Environnement
         void create_cell_to_rand_pos();
         void add_cell_to_rand_pos(Cell *);
         bool is_pos_free(int x, int y);
+        Cell *get_cell(int x, int y);
+        void set_cell(Cell *cell, int x, int y);
         void move_cell(Cell *, int x_offset, int y_offset);
         ~Environnement();
 };

@@ -60,6 +60,16 @@ bool Environnement::is_pos_free(int x, int y)
     return GET_CELL(x, y) == nullptr;
 }
 
+Cell *Environnement::get_cell(int x, int y)
+{
+    return GET_CELL(x, y);
+}
+
+void Environnement::set_cell(Cell *cell, int x, int y)
+{
+    SET_CELL(cell, x, y);
+}
+
 void Environnement::move_cell(Cell *cell, int x_offset, int y_offset)
 {
     if (this->is_pos_free(cell->x + x_offset, cell->y)) {
