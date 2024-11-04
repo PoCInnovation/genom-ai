@@ -4,11 +4,13 @@
 #include <vector>
 #include "simulation_parameters.hpp"
 #include "cell.hpp"
+#define GET_CELL(x, y) this->map[(y)*GRID_SIZE_X+(x)]
+#define SET_CELL(cell, x, y) this->map[(y)*GRID_SIZE_X+(x)] = (cell)
 
 class Environnement
 {  
     public:
-        std::vector<std::vector<Cell *>> map;
+        std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
 
         Environnement();

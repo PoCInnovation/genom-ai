@@ -15,7 +15,8 @@ SRC =				main.cpp						\
 					Cell/cell.cpp					\
 					Genome/genome.cpp				\
 					Neurone/neuron.cpp				\
-					Neurone/neuron_link.cpp
+					Neurone/neuron_link.cpp			\
+					print_progress_bar.cpp
 
 OBJ =				$(SRC:.cpp=.o)
 
