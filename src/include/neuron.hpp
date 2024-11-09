@@ -10,8 +10,6 @@ enum NEURON_TYPE {
 };
 
 enum INPUT_TYPE {
-    X_SIZE,
-    Y_SIZE,
     X_POS,
     Y_POS,
     INPUT_SIZE
