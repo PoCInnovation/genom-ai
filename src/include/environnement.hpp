@@ -2,7 +2,6 @@
 #define ENVIRONNEMENT_HPP
 
 #include <vector>
-#include "simulation_parameters.hpp"
 #include "cell.hpp"
 
 class Environnement

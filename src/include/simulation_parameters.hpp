@@ -14,4 +14,6 @@
 #define GENOME_LENGHT 16
 #define GEN_LENGHT 32
 
+#define LAYER_NEURON_LENGHT 3
+
 #endif
