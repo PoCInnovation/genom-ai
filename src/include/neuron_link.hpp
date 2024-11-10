@@ -15,11 +15,11 @@ class Neuron_link {
         int in_index = 0;
         NEURON_TYPE out_neuron = OUTPUT_NEURON;
         int out_index = 0;
-        int weight = 0;
+        float weight = 0;
         bool active_neuron = true;
 
         Neuron_link();
-        Neuron_link(std::array<bool, GEN_LENGHT> gen);
+        explicit Neuron_link(std::array<bool, GEN_LENGHT> gen);
         ~Neuron_link();
 };
 

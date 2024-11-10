@@ -10,8 +10,6 @@ enum NEURON_TYPE {
 };
 
 enum INPUT_TYPE {
-    X_SIZE,
-    Y_SIZE,
     X_POS,
     Y_POS,
     INPUT_SIZE
@@ -35,16 +33,16 @@ class Neuron {
     public:
 
         NEURON_TYPE neurone_type = LAYER_NEURON;
-        INPUT_TYPE input_type;
-        OUTPUT_TYPE output_type;
+        INPUT_TYPE input_type = INPUT_SIZE;
+        OUTPUT_TYPE output_type = OUTPUT_SIZE;
 
         bool doTriggerOutput = false;
-        float trigger_floor;
+        float trigger_floor{};
 
         Neuron();
-        Neuron(INPUT_TYPE input);
+        explicit Neuron(INPUT_TYPE input);
         Neuron(OUTPUT_TYPE output_type, bool doTriggerOutput, float trigger_floor);
-        float forward(std::vector<float> input_list);
+        float calculate_neuron(std::vector<float> input_list) const;
         ~Neuron();
 };
 
