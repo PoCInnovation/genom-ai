@@ -10,11 +10,12 @@ class Genome {
     private:
     public:
         std::array<Neuron_link, GENOME_LENGHT> neurone_link_list;
-        std::array<std::array<bool, GEN_LENGHT>, GENOME_LENGHT> gen_list;
+        std::array<std::array<bool, GEN_LENGHT>, GENOME_LENGHT> gen_list{};
 
-        Genome(std::array<long int, GENOME_LENGHT> genome);
+        explicit Genome(std::array<long long, GENOME_LENGHT> genome);
         ~Genome();
-        std::array<bool, GEN_LENGHT> intToBitArray(long int gen);
+
+        static std::array<bool, GEN_LENGHT> intToBitArray(long long gen);
 };
 
 #endif
