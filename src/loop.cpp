@@ -5,6 +5,7 @@
 #include "environnement.hpp"
 #include "die.hpp"
 #include "reproduction.hpp"
+#include "print_progress_bar.hpp"
 
 using namespace std;    
 
@@ -25,7 +26,7 @@ static int compute_gen(Environnement &env, sf::RenderWindow *window, int gen)
     for (int j = 0; j < STEP_PER_GEN; j++){
         compute_step(env);
         if (gen >= GEN_TO_START_RENDER)
-            render(env, window);
+            render(env, window, gen);
     }
     return 0;
 }
@@ -42,7 +43,14 @@ int loop(sf::RenderWindow *window)
             apply_die_rule(env);
             reproduce_cells(env);
         }
+        if (gen == GEN_TO_START_RENDER)
+            if (RENDER)
+                window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
+            else
+                exit(0);
         compute_gen(env, window, gen);
+        if (gen < GEN_TO_START_RENDER)
+            print_progress_bar(((float)gen)/((float)GEN_TO_START_RENDER));
     }
     return 0;
 }

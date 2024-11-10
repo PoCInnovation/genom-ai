@@ -3,11 +3,15 @@
 
 #include <vector>
 #include "cell.hpp"
+#define GET_ENV_CELL(env, x, y) (env)->map[(y)*GRID_SIZE_X+(x)]
+#define SET_ENV_CELL(env, cell, x, y) (env)->map[(y)*GRID_SIZE_X+(x)] = (cell)
+#define GET_CELL(x, y) GET_ENV_CELL(this, (x), (y))
+#define SET_CELL(cell, x, y) SET_ENV_CELL(this, (cell), (x), (y))
 
 class Environnement
 {  
     public:
-        std::vector<std::vector<Cell *>> map;
+        std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
 
         Environnement();

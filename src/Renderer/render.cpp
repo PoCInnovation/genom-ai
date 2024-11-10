@@ -7,24 +7,58 @@
 #include <ctime>
 #include <iostream>
 #include "simulation_parameters.hpp"
+#include "genome.hpp"
 #include "render.hpp"
 #include "cell.hpp"
 #include "environnement.hpp"
 
 using namespace std;
 
-static void draw_cells(Environnement &env, sf::RenderWindow *window)
+static void draw_cells(Environnement &env, sf::RenderWindow *window, int grid_width, int grid_height)
 {
-    sf::CircleShape shape(min(WINDOW_SIZE_X, WINDOW_SIZE_Y) / CELL_COUNT / 2);
+    sf::CircleShape shape(min(grid_width, grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y) / 2);
 
     shape.setFillColor(sf::Color::Green);
     for (Cell *cell : env.cell_list){
-        shape.setPosition((cell->x * WINDOW_SIZE_X) / GRID_SIZE_X, (cell->y * WINDOW_SIZE_Y) / GRID_SIZE_Y);
+        shape.setPosition((cell->x * grid_width) / GRID_SIZE_X, (cell->y * grid_height) / GRID_SIZE_Y);
         window->draw(shape);
     }
 }
 
-void render(Environnement &env, sf::RenderWindow *window)
+static void draw_info(string info, int y, sf::Text text, sf::RenderWindow *window)
+{
+    text.setString(info);
+    text.setPosition(WINDOW_SIZE_X - 380, y);
+    window->draw(text);
+}
+
+static void draw_separation_line(sf::RenderWindow *window)
+{
+    sf::RectangleShape separation_line = sf::RectangleShape(sf::Vector2f(5, WINDOW_SIZE_Y));
+
+    separation_line.setPosition(WINDOW_SIZE_X - 400, 0);
+    separation_line.setFillColor(sf::Color(255, 255, 255, 255));
+    window->draw(separation_line);
+}
+
+static void draw_window(Environnement &env, sf::RenderWindow *window, int gen_number)
+{
+    sf::Font font;
+    sf::Text text = sf::Text();
+
+    font.loadFromFile("RobotoMono-Medium.ttf");
+    text.setFont(font);
+    text.setCharacterSize(25);
+    draw_info("Actual gen:     " + to_string(gen_number), 15, text, window);
+    draw_info("World size:     " + to_string(GRID_SIZE_X) + "x" + to_string(GRID_SIZE_Y), 85, text, window);
+    draw_info("Population:     " + to_string(CELL_COUNT), 125, text, window);
+    draw_info("Steps/gen:      " + to_string(STEP_PER_GEN), 165, text, window);
+    draw_info("Genome lenght:  " + to_string(GENOME_LENGHT), 205, text, window);
+    draw_separation_line(window);
+    draw_cells(env, window, WINDOW_SIZE_X - 400, WINDOW_SIZE_Y);
+}
+
+void render(Environnement &env, sf::RenderWindow *window, int gen_number)
 {
     sf::Event event;
 
@@ -37,7 +71,7 @@ void render(Environnement &env, sf::RenderWindow *window)
         window->close();
     if (!window->isOpen())
         exit(0);
-    draw_cells(env, window);
+    draw_window(env, window, gen_number);
     window->display();
     sf::sleep(sf::seconds(1./FPS));
     window->clear();
