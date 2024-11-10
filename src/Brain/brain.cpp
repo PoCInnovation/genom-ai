@@ -50,7 +50,6 @@ float Brain::calculate_output(const std::vector<float>& input_list, const std::a
         output.push_back(this->calculate_output(input_list, neuron_links, link.in_index, link.in_neuron) * link.weight);
     }
 
-
     // SAVE LAYER NEURON
     if (neuron_type == LAYER_NEURON) {
         result = 0.;
@@ -62,6 +61,3 @@ float Brain::calculate_output(const std::vector<float>& input_list, const std::a
     }
     return this->output_neurons[index].calculate_neuron(output);
 }
-
-
-

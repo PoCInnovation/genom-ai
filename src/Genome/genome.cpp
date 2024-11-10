@@ -17,8 +17,7 @@ Genome::Genome(std::array<long long, GENOME_LENGHT> genome)
 Genome::~Genome()
 = default;
 
-std::array<bool, GEN_LENGHT> Genome::intToBitArray(const long long gen)
-{
+std::array<bool, GEN_LENGHT> Genome::intToBitArray(const long long gen) {
     std::array<bool, GEN_LENGHT> bit_gen{};
 
     for (int i = 0; i < GEN_LENGHT; ++i)

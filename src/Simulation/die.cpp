@@ -2,6 +2,7 @@
 #include <algorithm>
 #include "cell.hpp"
 #include "environnement.hpp"
+#include "simulation_parameters.hpp"
 
 static bool die_rule(Cell *cell)
 {

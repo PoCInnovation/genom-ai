@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.27)
 project(genomAI LANGUAGES CXX)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -42,4 +42,3 @@ include_directories(src/include)
 
 target_link_libraries(genomAI PRIVATE sfml-graphics)
 target_compile_features(genomAI PRIVATE cxx_std_17)
-
