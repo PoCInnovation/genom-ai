@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include <filesystem>
 #include "simulation_parameters.hpp"
 #include "genome.hpp"
 #include "render.hpp"
@@ -41,12 +42,19 @@ static void draw_separation_line(sf::RenderWindow *window)
     window->draw(separation_line);
 }
 
+static string get_path_relative_to_this_file(string relative_path)
+{
+    string sourceDir = __FILE__;
+    sourceDir = sourceDir.substr(0, sourceDir.find_last_of("/\\"));
+    return sourceDir + "/" + relative_path;
+}
+
 static void draw_window(Environnement &env, sf::RenderWindow *window, int gen_number)
 {
     sf::Font font;
     sf::Text text = sf::Text();
 
-    font.loadFromFile("RobotoMono-Medium.ttf");
+    font.loadFromFile(get_path_relative_to_this_file("../RobotoMono-Medium.ttf"));
     text.setFont(font);
     text.setCharacterSize(25);
     draw_info("Actual gen:     " + to_string(gen_number), 15, text, window);

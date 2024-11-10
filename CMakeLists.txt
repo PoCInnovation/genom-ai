@@ -26,6 +26,7 @@ add_executable(genomAI
     src/Simulation/reproduction.cpp
     src/loop.cpp
     src/main.cpp
+    src/print_progress_bar.cpp
     src/include/brain.hpp
     src/include/cell.hpp
     src/include/die.hpp
@@ -36,7 +37,9 @@ add_executable(genomAI
     src/include/neuron_link.hpp
     src/include/render.hpp
     src/include/reproduction.hpp
-    src/include/simulation_parameters.hpp)
+    src/include/simulation_parameters.hpp
+    src/include/print_progress_bar.hpp
+)
 
 include_directories(src/include)
 

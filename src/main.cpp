@@ -2,7 +2,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <array>
 #include <iostream>
-
+#include "loop.hpp"
 #include "brain.hpp"
 #include "render.hpp"
 #include "genome.hpp"
@@ -16,7 +16,7 @@ int main()
     const vector<float> inputs = {1, 1};
     const Genome genome(gen_list);
     Brain brain{};
-  
+
     srand(time(0));
     brain.forward(inputs, genome.neurone_link_list);
     loop(window);
