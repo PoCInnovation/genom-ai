@@ -16,7 +16,7 @@ Neuron_link::Neuron_link(std::array<bool, GEN_LENGHT> gen)
     this->out_index = res % OUTPUT_SIZE;
     for (int i = 2 * INDEX_SIZE; i < GEN_LENGHT; ++i)
         res = (res << 1) + gen[i];
-    this->weight = res / pow(2, GEN_LENGHT - 2);
+    this->weight = (res / pow(2, GEN_LENGHT - 4)) - DEFAULT_INPUT_SIZE;
 }
 
 Neuron_link::Neuron_link()

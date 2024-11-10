@@ -3,9 +3,7 @@
 #include <iostream>
 
 #include "brain.hpp"
-#include "simulation_parameters.hpp"
 #include "render.hpp"
-#include "loop.hpp"
 #include "genome.hpp"
 
 using namespace std;

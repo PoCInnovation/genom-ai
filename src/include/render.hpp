@@ -2,8 +2,6 @@
 #define RENDERER_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <vector>
-#include "cell.hpp"
 #include "environnement.hpp"
 
 #define WINDOW_SIZE_X 800

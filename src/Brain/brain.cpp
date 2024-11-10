@@ -17,13 +17,8 @@ array<float, OUTPUT_SIZE> Brain::forward(const vector<float>& input_list, const 
     this->input.fill(EMPTY_VALUE);
     this->layer.fill(EMPTY_VALUE);
 
-    for (int i = 0; i < OUTPUT_SIZE; i++) {
+    for (int i = 0; i < OUTPUT_SIZE; i++)
         output[i] = this->calculate_output(input_list, neuron_links, i, OUTPUT_NEURON);
-    }
-
-    for (float out : output) {
-        cout << out << endl;
-    }
     return output;
 }
 

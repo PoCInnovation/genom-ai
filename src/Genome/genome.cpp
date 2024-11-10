@@ -1,7 +1,6 @@
 #include "genome.hpp"
 #include "neuron_link.hpp"
 #include <array>
-#include <bit>
 #include <iostream>
 using namespace std;
 
@@ -13,8 +12,6 @@ Genome::Genome(std::array<long long, GENOME_LENGHT> genome)
     
     for (int i = 0; i < GENOME_LENGHT; ++i)
         this->neurone_link_list[i] = Neuron_link(gen_list[i]);
-    for (int i = 0; i < GENOME_LENGHT; ++i)
-        cout << this->neurone_link_list[i].in_index << " " << this->neurone_link_list[i].out_index << " " << this->neurone_link_list[i].weight << endl;
 }
 
 Genome::~Genome()
