@@ -18,22 +18,22 @@ Neuron::Neuron(const OUTPUT_TYPE output_type, const bool doTriggerOutput, const 
     this->trigger_floor = trigger_floor;
 }
 
-float Neuron::calculate_neuron(std::vector<float> input_list) const
+float Neuron::calculate_neuron(std::vector<float> input_list)
 {
-    float res = 0.;
+    float res = 0.0f;
 
     if (this->neurone_type == INPUT_NEURON)
         return input_list[this->input_type];
-    for (const float input : input_list)
+    for (float input : input_list)
         res += input;
-    res /= DEFAULT_INPUT_SIZE * input_list.size();
+    res /= (float)DEFAULT_INPUT_SIZE * (float)input_list.size();
     if (this->doTriggerOutput)
         if (res > this->trigger_floor)
-            res = 1;
+            res = 1.0f;
         else if (res < -this->trigger_floor)
-            res = -1;
+            res = -1.0f;
         else
-            res = 0;
+            res = 0.0f;
     return res;
 }
 

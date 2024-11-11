@@ -1,5 +1,7 @@
 #include "environnement.hpp"
 #include "simulation_parameters.hpp"
+#include "genome.hpp"
+#include "brain.hpp"
 #include <vector>
 #include <cell.hpp>
 #include <random>
@@ -10,6 +12,7 @@ Environnement::Environnement()
 {
     this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
     this->cell_list = vector<Cell *>();
+    this->brain = Brain();
 }
 
 void Environnement::clear()
@@ -32,7 +35,7 @@ void Environnement::create_cell_to_rand_pos()
         x = rand() % GRID_SIZE_X;
         y = rand() % GRID_SIZE_Y;
     }
-    cell = new Cell(x, y);
+    cell = new Cell(x, y, Genome());
     // speed is -1, 0 or 1
     cell->setSpeed((rand() % 3) - 1, (rand() % 3) - 1);
     SET_CELL(cell, x, y);

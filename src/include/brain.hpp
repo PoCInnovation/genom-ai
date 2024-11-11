@@ -5,7 +5,7 @@
 #include "neuron_link.hpp"
 #include <array>
 
-#define EMPTY_VALUE (-2.)
+#define EMPTY_VALUE (-2.0f)
 
 class Brain {
     private:
@@ -13,7 +13,7 @@ class Brain {
         std::array<float, INPUT_SIZE> input{};
         std::array<float, LAYER_NEURON_LENGHT> layer{};
 
-        float calculate_output(const std::vector<float>& input_list, const std::array<Neuron_link, GENOME_LENGHT>& neuron_links, int index, NEURON_TYPE neuron_type);
+        float calculate_output(const std::vector<float>& input_list, std::array<Neuron_link, GENOME_LENGHT>& neuron_links, int index, NEURON_TYPE neuron_type);
 
     public:
         std::array<Neuron, INPUT_SIZE> input_neurons = {
@@ -21,14 +21,14 @@ class Brain {
             Neuron(Y_POS)
         };
         std::array<Neuron, OUTPUT_SIZE> output_neurons = {
-            Neuron(X_MOV, true, 0.5),
-            Neuron(Y_MOV, true, 0.5),
+            Neuron(X_MOV, true, 0.5f),
+            Neuron(Y_MOV, true, 0.5f),
         };
         Neuron layer_neuron = Neuron();
 
         Brain();
         ~Brain();
-        std::array<float, OUTPUT_SIZE> forward(const std::vector<float>& input_list, const std::array<Neuron_link, GENOME_LENGHT>& neuron_links);
+        std::array<float, OUTPUT_SIZE> forward(const std::vector<float>& input_list, std::array<Neuron_link, GENOME_LENGHT>& neuron_links);
 };
 
 #endif

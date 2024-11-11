@@ -12,14 +12,15 @@ class Neuron_link {
         /* data */
     public:
         NEURON_TYPE in_neuron = INPUT_NEURON;
-        int in_index = 0;
+        int in_index = -1;
         NEURON_TYPE out_neuron = OUTPUT_NEURON;
-        int out_index = 0;
-        float weight = 0;
+        int out_index = -1;
+        float weight = -1;
         bool active_neuron = true;
 
         Neuron_link();
         explicit Neuron_link(std::array<bool, GEN_LENGHT> gen);
+        void PrintInfo();
         ~Neuron_link();
 };
 

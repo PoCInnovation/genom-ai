@@ -1,11 +1,13 @@
 #include "cell.hpp"
+#include "genome.hpp"
 
 
-Cell::Cell(int x, int y)
+Cell::Cell(int x, int y, Genome genome)
 {
     this->setPos(x, y);
     this->x_speed = 0;
     this->y_speed = 0;
+    this->genome = genome;
 }
 
 void Cell::setPos(int x, int y)

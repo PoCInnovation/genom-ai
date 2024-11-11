@@ -1,9 +1,10 @@
 #include <array>
-#include "neuron_link.hpp"
-
 #include <complex>
+#include "neuron_link.hpp"
+#include "genome.hpp"
+#include <iostream>
 
-Neuron_link::Neuron_link(std::array<bool, GEN_LENGHT> gen)
+Neuron_link::Neuron_link(Gene gen)
 {
     int res = 0;
     this->in_neuron = gen[0] ? INPUT_NEURON : LAYER_NEURON;
@@ -17,6 +18,15 @@ Neuron_link::Neuron_link(std::array<bool, GEN_LENGHT> gen)
     for (int i = 2 * INDEX_SIZE; i < GEN_LENGHT; ++i)
         res = (res << 1) + gen[i];
     this->weight = (res / pow(2, GEN_LENGHT - 4)) - DEFAULT_INPUT_SIZE;
+}
+
+void Neuron_link::PrintInfo(void)
+{
+    printf("Neuron\n");
+    printf("active: %d\n", (int)this->active_neuron);
+    printf("in neuron index: %d\n", this->in_index);
+    printf("out neuron index: %d\n", this->out_index);
+    printf("weight: %f\n", this->weight);
 }
 
 Neuron_link::Neuron_link()

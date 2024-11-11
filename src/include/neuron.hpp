@@ -42,7 +42,7 @@ class Neuron {
         Neuron();
         explicit Neuron(INPUT_TYPE input);
         Neuron(OUTPUT_TYPE output_type, bool doTriggerOutput, float trigger_floor);
-        float calculate_neuron(std::vector<float> input_list) const;
+        float calculate_neuron(std::vector<float> input_list);
         ~Neuron();
 };
 
