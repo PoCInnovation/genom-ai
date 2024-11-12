@@ -22,12 +22,22 @@ static Gene get_gene(int link_index, Cell *parent1, Cell *parent2)
         return parent2->genome.gen_list[link_index];
 }
 
+static void mutate(Gene &gen)
+{
+    int index = rand() % GEN_LENGHT;
+
+    gen[index] = !gen[index];
+}
+
 static void inherit_genes(Cell *child_cell, Cell *parent1, Cell *parent2)
 {
     std::array<Gene, GENOME_LENGHT> gen_list;
 
-    for (int i = 0; i < GENOME_LENGHT; i++)
+    for (int i = 0; i < GENOME_LENGHT; i++){
         gen_list[i] = get_gene(i, parent1, parent2);
+        if (mutation_happen())
+            mutate(gen_list[i]);
+    }
     child_cell->genome.setGenList(gen_list);
 }
 

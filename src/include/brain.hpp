@@ -18,11 +18,16 @@ class Brain {
     public:
         std::array<Neuron, INPUT_SIZE> input_neurons = {
             Neuron(X_POS),
-            Neuron(Y_POS)
+            Neuron(Y_POS),
+            Neuron(CONST_1),
+            Neuron(CONST_0),
+            Neuron(CONST_MINUS_1),
+            Neuron(CONST_HALF),
+            Neuron(CONST_MINUS_HALF)
         };
         std::array<Neuron, OUTPUT_SIZE> output_neurons = {
-            Neuron(X_MOV, true, 0.5f),
-            Neuron(Y_MOV, true, 0.5f),
+            Neuron(X_MOV, true, 0.2f),
+            Neuron(Y_MOV, true, 0.2f),
         };
         Neuron layer_neuron = Neuron();
 

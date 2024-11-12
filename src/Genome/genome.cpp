@@ -25,6 +25,9 @@ Genome::Genome(std::array<long long, GENOME_LENGHT> genome)
 void Genome::setGenList(std::array<Gene, GENOME_LENGHT> gen_list)
 {
     for (int i = 0; i < GENOME_LENGHT; ++i)
+        this->gen_list[i] = gen_list[i];
+    
+    for (int i = 0; i < GENOME_LENGHT; ++i)
         this->neurone_link_list[i] = Neuron_link(gen_list[i]);
 }
 

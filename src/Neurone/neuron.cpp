@@ -26,7 +26,10 @@ float Neuron::calculate_neuron(std::vector<float> input_list)
         return input_list[this->input_type];
     for (float input : input_list)
         res += input;
-    res /= (float)DEFAULT_INPUT_SIZE * (float)input_list.size();
+    if (input_list.size() == 0)
+        res = 0;
+    else
+        res /= (float)DEFAULT_INPUT_SIZE * (float)input_list.size();
     if (this->doTriggerOutput)
         if (res > this->trigger_floor)
             res = 1.0f;

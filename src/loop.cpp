@@ -11,16 +11,11 @@ using namespace std;
 
 static void compute_cells(Environnement &env, Cell *cell)
 {
-    vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f};
+    vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
     array<float, OUTPUT_SIZE> brain_output;
 
     brain_output = env.brain.forward(inputs, cell->genome.neurone_link_list);
-    if (brain_output[0] != 0.0f or brain_output[1] != 0.0f){
-        // cell->genome.neurone_link_list[0].PrintInfo();
-        // printf("out: %f %f\n", brain_output[0], brain_output[1]);
-        // printf("input: %f, %f ", inputs[0], inputs[1]);
-        // printf("output %f, %f\n", brain_output[0], brain_output[1]);
-    }
+
     env.move_cell(cell, brain_output[0], brain_output[1]);
 }
 

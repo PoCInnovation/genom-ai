@@ -12,6 +12,11 @@ enum NEURON_TYPE {
 enum INPUT_TYPE {
     X_POS,
     Y_POS,
+    CONST_1,
+    CONST_0,
+    CONST_MINUS_1,
+    CONST_HALF,
+    CONST_MINUS_HALF,
     INPUT_SIZE
 };
 
