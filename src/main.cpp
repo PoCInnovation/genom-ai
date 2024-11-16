@@ -13,7 +13,7 @@ int main()
 {
     sf::RenderWindow *window = nullptr;
 
-    srand(time(0));
+    srand(time(nullptr));
     loop(window);
     delete window;
     return 0;

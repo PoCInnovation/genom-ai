@@ -8,6 +8,7 @@ Cell::Cell(int x, int y, Genome genome)
     this->x_speed = 0;
     this->y_speed = 0;
     this->genome = genome;
+    this->brain.setNeurons(this->genome.neurone_link_list);
 }
 
 void Cell::setPos(int x, int y)
@@ -23,5 +24,4 @@ void Cell::setSpeed(int x_speed, int y_speed)
 }
 
 Cell::~Cell()
-{
-}
+= default;

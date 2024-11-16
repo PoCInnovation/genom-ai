@@ -3,52 +3,24 @@
 
 #include <vector>
 
-enum NEURON_TYPE {
-    INPUT_NEURON,
-    LAYER_NEURON,
-    OUTPUT_NEURON
-};
-
-enum INPUT_TYPE {
-    X_POS,
-    Y_POS,
-    CONST_1,
-    CONST_0,
-    CONST_MINUS_1,
-    CONST_HALF,
-    CONST_MINUS_HALF,
-    INPUT_SIZE
-};
-
-enum OUTPUT_TYPE {
-    X_MOV,
-    Y_MOV,
-    OUTPUT_SIZE
-};
-
-#define DEFAULT_INPUT_SIZE 4
-#define DEFAULT_OUTPUT_SIZE 4
+#include "neuron_link.hpp"
 
 class Neuron {
-    private:
 
-        float input_size = DEFAULT_INPUT_SIZE;
-        float output_size = DEFAULT_OUTPUT_SIZE;
+public:
+    std::vector<Neuron_link> inputs;
+    NEURON_TYPE neuron_type = LAYER_NEURON;
+    int index = 0;
 
-    public:
+    Neuron();
 
-        NEURON_TYPE neurone_type = LAYER_NEURON;
-        INPUT_TYPE input_type = INPUT_SIZE;
-        OUTPUT_TYPE output_type = OUTPUT_SIZE;
+    explicit Neuron(NEURON_TYPE neuron_type, int index);
 
-        bool doTriggerOutput = false;
-        float trigger_floor{};
+    void add_input(const Neuron_link& input);
 
-        Neuron();
-        explicit Neuron(INPUT_TYPE input);
-        Neuron(OUTPUT_TYPE output_type, bool doTriggerOutput, float trigger_floor);
-        float calculate_neuron(std::vector<float> input_list);
-        ~Neuron();
+    float calculate_neuron(const std::vector<float> &input_list, const std::array<float, 3>& layer) const;
+
+    ~Neuron();
 };
 
 #endif

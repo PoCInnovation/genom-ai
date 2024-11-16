@@ -4,7 +4,7 @@
 #include "genome.hpp"
 #include <iostream>
 
-Neuron_link::Neuron_link(Gene gen)
+Neuron_link::Neuron_link(const Gene &gen)
 {
     int res = 0;
     this->in_neuron = gen[0] ? INPUT_NEURON : LAYER_NEURON;
@@ -17,10 +17,15 @@ Neuron_link::Neuron_link(Gene gen)
     this->out_index = res % OUTPUT_SIZE;
     for (int i = 2 * INDEX_SIZE; i < GEN_LENGHT; ++i)
         res = (res << 1) + gen[i];
-    this->weight = (res / pow(2, GEN_LENGHT - 4)) - DEFAULT_INPUT_SIZE;
+    this->weight = (res / powf(2, GEN_LENGHT - 2)) - DEFAULT_INPUT_SIZE;
 }
 
-void Neuron_link::PrintInfo(void)
+void Neuron_link::print() const {
+    std::cout << "\t" << this->in_neuron << " " << this->in_index << " " << this->out_neuron
+    << " " << this->out_index << " " << this->weight << " " << this->active_neuron << std::endl;
+}
+
+void Neuron_link::PrintInfo() const
 {
     printf("Neuron\n");
     printf("active: %d\n", (int)this->active_neuron);

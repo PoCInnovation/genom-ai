@@ -1,6 +1,7 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
+#include "brain.hpp"
 #include "genome.hpp"
 
 class Cell
@@ -11,7 +12,9 @@ class Cell
         int x_speed;
         int y_speed;
         Genome genome;
-        
+        Brain brain{};
+
+
         Cell(int x, int y, Genome genome);
         void setPos(int x, int y);
         void setSpeed(int x_speed, int y_speed);

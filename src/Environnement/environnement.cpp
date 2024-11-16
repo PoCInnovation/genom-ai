@@ -12,7 +12,6 @@ Environnement::Environnement()
 {
     this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
     this->cell_list = vector<Cell *>();
-    this->brain = Brain();
 }
 
 void Environnement::clear()

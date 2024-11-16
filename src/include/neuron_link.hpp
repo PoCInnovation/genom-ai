@@ -2,14 +2,37 @@
 #define NEURON_LINK_HPP
 
 #include <array>
-#include "neuron.hpp"
 #include "simulation_parameters.hpp"
 
 #define INDEX_SIZE 8
 
+#define DEFAULT_INPUT_SIZE 1
+#define DEFAULT_OUTPUT_SIZE 1
+
+enum INPUT_TYPE {
+    X_POS,
+    Y_POS,
+    CONST_1,
+    CONST_0,
+    CONST_MINUS_1,
+    CONST_HALF,
+    CONST_MINUS_HALF,
+    INPUT_SIZE
+};
+
+enum OUTPUT_TYPE {
+    X_MOV,
+    Y_MOV,
+    OUTPUT_SIZE
+};
+
+enum NEURON_TYPE {
+    INPUT_NEURON,
+    LAYER_NEURON,
+    OUTPUT_NEURON
+};
+
 class Neuron_link {
-    private:
-        /* data */
     public:
         NEURON_TYPE in_neuron = INPUT_NEURON;
         int in_index = -1;
@@ -19,8 +42,11 @@ class Neuron_link {
         bool active_neuron = true;
 
         Neuron_link();
-        explicit Neuron_link(std::array<bool, GEN_LENGHT> gen);
-        void PrintInfo();
+        explicit Neuron_link(const std::array<bool, GEN_LENGHT> &gen);
+
+        void print() const;
+
+        void PrintInfo() const;
         ~Neuron_link();
 };
 
