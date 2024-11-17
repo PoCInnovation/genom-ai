@@ -12,12 +12,12 @@ Neuron_link::Neuron_link(const Gene &gen)
         res = (res << 1) + gen[i];
     this->in_index = res % (gen[0] ? INPUT_SIZE : LAYER_NEURON_LENGHT);
     this->out_neuron = gen[INDEX_SIZE] ? LAYER_NEURON : OUTPUT_NEURON;
-    for (int i = INDEX_SIZE; i < 2 * INDEX_SIZE; ++i)
+    for (int i = INDEX_SIZE + 1; i < 2 * INDEX_SIZE; ++i)
         res = (res << 1) + gen[i];
     this->out_index = res % (gen[INDEX_SIZE] ? LAYER_NEURON_LENGHT : OUTPUT_SIZE);
     for (int i = 2 * INDEX_SIZE; i < GEN_LENGHT; ++i)
         res = (res << 1) + gen[i];
-    this->weight = (res / powf(2, GEN_LENGHT - 2)) - DEFAULT_INPUT_SIZE;
+    this->weight = res / powf(2, GEN_LENGHT - 2) - DEFAULT_INPUT_SIZE;
 }
 
 void Neuron_link::print() const {
