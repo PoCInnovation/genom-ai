@@ -1,5 +1,6 @@
 #include "neuron.hpp"
 
+#include <array>
 #include <cmath>
 #include <iostream>
 #include <vector>

@@ -14,9 +14,9 @@ static void compute_cells(Environnement &env, Cell *cell)
 {
     const vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
 
-    array<float, OUTPUT_SIZE> brain_output = cell->brain.forward_cell(inputs);
+    const array<float, OUTPUT_SIZE> brain_output = cell->brain.forward_cell(inputs);
 
-    env.move_cell(cell, brain_output[0], brain_output[1]);
+    env.move_cell(cell, static_cast<int>(brain_output[0]), static_cast<int>(brain_output[1]));
 }
 
 static int compute_step(Environnement &env)

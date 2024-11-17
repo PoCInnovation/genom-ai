@@ -13,7 +13,7 @@ Genome::Genome()
         this->neurone_link_list[i] = Neuron_link(gen_list[i]);
 }
 
-void Genome::setGenList(const std::array<Gene, GENOME_LENGHT> &gen_list)
+Genome::Genome(const std::array<Gene, GENOME_LENGHT> &gen_list)
 {
     for (int i = 0; i < GENOME_LENGHT; ++i)
         this->gen_list[i] = gen_list[i];

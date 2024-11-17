@@ -18,7 +18,7 @@ public:
 
     void add_input(const Neuron_link& input);
 
-    float calculate_neuron(const std::vector<float> &input_list, const std::array<float, 3>& layer) const;
+    float calculate_neuron(const std::vector<float> &input_list, const std::array<float, LAYER_NEURON_LENGHT>& layer) const;
 
     ~Neuron();
 };

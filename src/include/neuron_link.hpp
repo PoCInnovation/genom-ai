@@ -1,8 +1,9 @@
 #ifndef NEURON_LINK_HPP
 #define NEURON_LINK_HPP
 
-#include <array>
 #include "simulation_parameters.hpp"
+
+typedef std::array<bool, GEN_LENGHT> Gene;
 
 #define INDEX_SIZE 8
 
@@ -42,7 +43,7 @@ class Neuron_link {
         bool active_neuron = true;
 
         Neuron_link();
-        explicit Neuron_link(const std::array<bool, GEN_LENGHT> &gen);
+        explicit Neuron_link(const Gene &gen);
 
         void print() const;
 

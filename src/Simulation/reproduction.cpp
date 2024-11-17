@@ -24,14 +24,14 @@ static Gene get_gene(int link_index, Cell *parent1, Cell *parent2)
 
 static void mutate(Gene &gen)
 {
-    int index = rand() % GEN_LENGHT;
+    const int index = rand() % GEN_LENGHT;
 
     gen[index] = !gen[index];
 }
 
-static void inherit_genes(Cell *child_cell, Cell *parent1, Cell *parent2)
+static std::array<Gene, GENOME_LENGHT> inherit_genes(Cell *parent1, Cell *parent2)
 {
-    std::array<Gene, GENOME_LENGHT> gen_list;
+    std::array<Gene, GENOME_LENGHT> gen_list{};
 
     for (int i = 0; i < GENOME_LENGHT; i++){
         if (parent2 != nullptr) {
@@ -42,7 +42,7 @@ static void inherit_genes(Cell *child_cell, Cell *parent1, Cell *parent2)
         if (mutation_happen())
             mutate(gen_list[i]);
     }
-    child_cell->genome.setGenList(gen_list);
+    return gen_list;
 }
 
 // static void inherit_genes(Cell *child_cell, Cell *parent1, Cell *parent2)
@@ -62,21 +62,22 @@ static void inherit_genes(Cell *child_cell, Cell *parent1, Cell *parent2)
 void reproduce_cells(Environnement &env)
 {
     vector<Cell *> new_cell_list;
+    std::array<Gene, GENOME_LENGHT> gen_list{};
     int index_parent_1;
     int index_parent_2;
     Cell *cell;
 
     for (int i = 0; i < CELL_COUNT; i++){
-        cell = new Cell(0, 0, Genome());
         index_parent_1 = rand() % env.cell_list.size();
         if (!ONE_PARENT) {
             index_parent_2 = rand() % env.cell_list.size();
             while (index_parent_2 == index_parent_1)
                 index_parent_2 = rand() % env.cell_list.size();
-            inherit_genes(cell, env.cell_list[index_parent_1], env.cell_list[index_parent_2]);
+            gen_list = inherit_genes(env.cell_list[index_parent_1], env.cell_list[index_parent_2]);
         } else {
-            inherit_genes(cell, env.cell_list[index_parent_1], nullptr);
+            gen_list = inherit_genes(env.cell_list[index_parent_1], nullptr);
         }
+        cell = new Cell(0, 0, Genome(gen_list));
         new_cell_list.push_back(cell);
     }
     env.clear();

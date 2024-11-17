@@ -7,17 +7,15 @@
 class Cell
 {
     public:
-        int x;
-        int y;
-        int x_speed;
-        int y_speed;
+        int x{};
+        int y{};
         Genome genome;
         Brain brain{};
 
 
-        Cell(int x, int y, Genome genome);
+        Cell(int x, int y, const Genome& genome);
         void setPos(int x, int y);
-        void setSpeed(int x_speed, int y_speed);
+
         ~Cell();
 };
 
