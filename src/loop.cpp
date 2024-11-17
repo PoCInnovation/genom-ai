@@ -1,3 +1,4 @@
+#include <iostream>
 #include <vector>
 #include "simulation_parameters.hpp"
 #include "render.hpp"
@@ -11,14 +12,11 @@ using namespace std;
 
 static void compute_cells(Environnement &env, Cell *cell)
 {
-    vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
-    array<float, OUTPUT_SIZE> brain_output;
+    const vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
 
-    brain_output = env.brain.forward(inputs, cell->genome.neurone_link_list);
+    const array<float, OUTPUT_SIZE> brain_output = cell->brain.forward_cell(inputs);
 
-    env.move_cell(cell, brain_output[0], brain_output[1]);
-    // if (brain_output[2] == 1)
-    //     env.move_cell(cell, (rand() % 3)-1, (rand() % 3)-1);
+    env.move_cell(cell, static_cast<int>(brain_output[0]), static_cast<int>(brain_output[1]));
 }
 
 static int compute_step(Environnement &env)
@@ -50,11 +48,8 @@ int loop(sf::RenderWindow *window)
             apply_die_rule(env);
             reproduce_cells(env);
         }
-        if (gen == GEN_TO_START_RENDER)
-            if (RENDER)
-                window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
-            else
-                exit(0);
+        if (gen == GEN_TO_START_RENDER && RENDER)
+            window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
         compute_gen(env, window, gen);
         if (gen < GEN_TO_START_RENDER)
             print_progress_bar(((float)gen)/((float)GEN_TO_START_RENDER));

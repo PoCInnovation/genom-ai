@@ -14,7 +14,6 @@ class Environnement
     public:
         std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
-        Brain brain;
 
         Environnement();
         void clear();

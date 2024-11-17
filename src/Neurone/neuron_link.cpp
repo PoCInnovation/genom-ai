@@ -4,23 +4,30 @@
 #include "genome.hpp"
 #include <iostream>
 
-Neuron_link::Neuron_link(Gene gen)
+Neuron_link::Neuron_link(const Gene &gen)
 {
     int res = 0;
     this->in_neuron = gen[0] ? INPUT_NEURON : LAYER_NEURON;
     for (int i = 1; i < INDEX_SIZE; ++i)
         res = (res << 1) + gen[i];
-    this->in_index = res % INPUT_SIZE;
+    this->in_index = res % (gen[0] ? INPUT_SIZE : LAYER_NEURON_LENGHT);
+    res = 0;
     this->out_neuron = gen[INDEX_SIZE] ? LAYER_NEURON : OUTPUT_NEURON;
-    for (int i = INDEX_SIZE; i < 2 * INDEX_SIZE; ++i)
+    for (int i = INDEX_SIZE + 1; i < 2 * INDEX_SIZE; ++i)
         res = (res << 1) + gen[i];
-    this->out_index = res % OUTPUT_SIZE;
+    this->out_index = res % (gen[INDEX_SIZE] ? LAYER_NEURON_LENGHT : OUTPUT_SIZE);
+    res = 0;
     for (int i = 2 * INDEX_SIZE; i < GEN_LENGHT; ++i)
         res = (res << 1) + gen[i];
-    this->weight = (res / pow(2, GEN_LENGHT - 4)) - DEFAULT_INPUT_SIZE;
+    this->weight = static_cast<float>(res) / powf(2, GEN_LENGHT - 2 * INDEX_SIZE - 1) - DEFAULT_INPUT_SIZE;
 }
 
-void Neuron_link::PrintInfo(void)
+void Neuron_link::print() const {
+    std::cout << "\t" << this->in_neuron << " " << this->in_index << " " << this->out_neuron
+    << " " << this->out_index << " " << this->weight << " " << this->active_neuron << std::endl;
+}
+
+void Neuron_link::PrintInfo() const
 {
     printf("Neuron\n");
     printf("active: %d\n", (int)this->active_neuron);

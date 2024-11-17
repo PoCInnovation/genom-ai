@@ -12,7 +12,6 @@ Environnement::Environnement()
 {
     this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
     this->cell_list = vector<Cell *>();
-    this->brain = Brain();
 }
 
 void Environnement::clear()
@@ -36,8 +35,6 @@ void Environnement::create_cell_to_rand_pos()
         y = rand() % GRID_SIZE_Y;
     }
     cell = new Cell(x, y, Genome());
-    // speed is -1, 0 or 1
-    cell->setSpeed((rand() % 3) - 1, (rand() % 3) - 1);
     SET_CELL(cell, x, y);
     this->cell_list.push_back(cell);
 }

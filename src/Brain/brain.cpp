@@ -2,6 +2,9 @@
 
 #include <iostream>
 #include <vector>
+#include <array>
+
+#include "cell.hpp"
 
 using namespace std;
 
@@ -11,53 +14,34 @@ Brain::Brain()
 Brain::~Brain()
 = default;
 
-array<float, OUTPUT_SIZE> Brain::forward(const vector<float>& input_list, array<Neuron_link, GENOME_LENGHT>& neuron_links)
-{
-    array<float, OUTPUT_SIZE> output{};
-    this->input.fill(EMPTY_VALUE);
-    this->layer.fill(EMPTY_VALUE);
-
-    for (int i = 0; i < OUTPUT_SIZE; i++)
-        output[i] = this->calculate_output(input_list, neuron_links, i, OUTPUT_NEURON);
-    return output;
+void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGHT>& neurone_link_list) {
+    for (const Neuron_link& neuron_link : neurone_link_list) {
+        addToNeurons(neuron_link);
+    }
 }
 
-float Brain::calculate_output(const std::vector<float>& input_list, std::array<Neuron_link, GENOME_LENGHT>& neuron_links, int index, NEURON_TYPE neuron_type)
-{
-    float result = 0.0f;
-    vector<float> output;
+void Brain::addToNeurons(const Neuron_link& neuron_link) {
+    for (Neuron& neuron : this->neurons)
+        if (neuron.neuron_type == neuron_link.out_neuron && neuron.index == neuron_link.out_index) {
+            neuron.add_input(neuron_link);
+            return;
+        }
+    Neuron new_neuron(neuron_link.out_neuron, neuron_link.out_index);
+    new_neuron.add_input(neuron_link);
+    this->neurons.push_back(new_neuron);
+}
 
-    // INPUT NEURON
-    if (neuron_type == INPUT_NEURON) {
-        if (this->input[index] != EMPTY_VALUE)
-            return this->input[index];
-        result = this->input_neurons[index].calculate_neuron(input_list);
-        this->input[index] = result;
-        return result;
+array<float, OUTPUT_SIZE> Brain::forward_cell(const vector<float> &input_list) {
+
+    array<float, OUTPUT_SIZE> output{};
+    float result = 0;
+
+    for (Neuron& neuron : this->neurons) {
+        result = neuron.calculate_neuron(input_list, this->layer);
+        if (neuron.neuron_type == LAYER_NEURON)
+            this->layer[neuron.index] = result;
+        else
+            output[neuron.index] = result;
     }
-
-    // ALREADY CALCULATED LAYER NEURON
-    if (neuron_type == LAYER_NEURON && this->layer[index] != EMPTY_VALUE)
-        return this->layer[index];
-
-    // CALCULATE NEURON
-    for (int i = 0; i < GENOME_LENGHT; i++) {
-        Neuron_link& link = neuron_links[i];
-        if (link.in_neuron == link.out_neuron)
-            continue;
-        if (!link.active_neuron || link.out_neuron != neuron_type || link.out_index != index)
-            continue;
-        output.push_back(this->calculate_output(input_list, neuron_links, link.in_index, link.in_neuron) * link.weight);
-    }
-
-    // SAVE LAYER NEURON
-    if (neuron_type == LAYER_NEURON) {
-        result = 0.0f;
-        for (const float out : output)
-            result += out;
-        result /= (float)output.size() * (float)DEFAULT_OUTPUT_SIZE;
-        this->layer[index] = result;
-        return result;
-    }
-    return this->output_neurons[index].calculate_neuron(output);
+    return output;
 }
