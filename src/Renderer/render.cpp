@@ -29,7 +29,7 @@ static void draw_cells(Environnement &env, sf::RenderWindow *window, int grid_wi
 static void draw_info(string info, int y, sf::Text text, sf::RenderWindow *window)
 {
     text.setString(info);
-    text.setPosition(WINDOW_SIZE_X - 380, y);
+    text.setPosition(WINDOW_SIZE_X - 480, y);
     window->draw(text);
 }
 
@@ -37,7 +37,7 @@ static void draw_separation_line(sf::RenderWindow *window)
 {
     sf::RectangleShape separation_line = sf::RectangleShape(sf::Vector2f(5, WINDOW_SIZE_Y));
 
-    separation_line.setPosition(WINDOW_SIZE_X - 400, 0);
+    separation_line.setPosition(WINDOW_SIZE_X - 500, 0);
     separation_line.setFillColor(sf::Color(255, 255, 255, 255));
     window->draw(separation_line);
 }
@@ -57,13 +57,14 @@ static void draw_window(Environnement &env, sf::RenderWindow *window, int gen_nu
     font.loadFromFile(get_path_relative_to_this_file("../RobotoMono-Medium.ttf"));
     text.setFont(font);
     text.setCharacterSize(25);
-    draw_info("Actual gen:     " + to_string(gen_number), 15, text, window);
-    draw_info("World size:     " + to_string(GRID_SIZE_X) + "x" + to_string(GRID_SIZE_Y), 85, text, window);
-    draw_info("Population:     " + to_string(CELL_COUNT), 125, text, window);
-    draw_info("Steps/gen:      " + to_string(STEP_PER_GEN), 165, text, window);
-    draw_info("Genome lenght:  " + to_string(GENOME_LENGHT), 205, text, window);
+    draw_info("Actual gen:       " + to_string(gen_number), 15, text, window);
+    draw_info("World size:       " + to_string(GRID_SIZE_X) + "x" + to_string(GRID_SIZE_Y), 85, text, window);
+    draw_info("Population:       " + to_string(CELL_COUNT), 125, text, window);
+    draw_info("Steps/gen:        " + to_string(STEP_PER_GEN), 165, text, window);
+    draw_info("Number of genes:  " + to_string(GENOME_LENGHT), 205, text, window);
+    draw_info("Mutation chance:  " + to_string((float)MUTATION_CHANCE/100) + "%", 245, text, window);
     draw_separation_line(window);
-    draw_cells(env, window, WINDOW_SIZE_X - 400, WINDOW_SIZE_Y);
+    draw_cells(env, window, WINDOW_SIZE_X - 500, WINDOW_SIZE_Y);
 }
 
 void render(Environnement &env, sf::RenderWindow *window, int gen_number)

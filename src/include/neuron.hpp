@@ -23,6 +23,7 @@ enum INPUT_TYPE {
 enum OUTPUT_TYPE {
     X_MOV,
     Y_MOV,
+    // RAND_MOV,
     OUTPUT_SIZE
 };
 

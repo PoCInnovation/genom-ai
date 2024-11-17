@@ -17,6 +17,8 @@ static void compute_cells(Environnement &env, Cell *cell)
     brain_output = env.brain.forward(inputs, cell->genome.neurone_link_list);
 
     env.move_cell(cell, brain_output[0], brain_output[1]);
+    // if (brain_output[2] == 1)
+    //     env.move_cell(cell, (rand() % 3)-1, (rand() % 3)-1);
 }
 
 static int compute_step(Environnement &env)

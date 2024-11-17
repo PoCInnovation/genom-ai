@@ -28,6 +28,7 @@ class Brain {
         std::array<Neuron, OUTPUT_SIZE> output_neurons = {
             Neuron(X_MOV, true, 0.2f),
             Neuron(Y_MOV, true, 0.2f),
+            // Neuron(RAND_MOV, true, 0.2f),
         };
         Neuron layer_neuron = Neuron();
 
