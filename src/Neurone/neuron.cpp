@@ -1,39 +1,42 @@
 #include "neuron.hpp"
+
+#include <array>
+#include <cmath>
+#include <iostream>
 #include <vector>
 
 Neuron::Neuron()
 = default;
 
-Neuron::Neuron(const INPUT_TYPE input)
-{
-    this->neurone_type = INPUT_NEURON;
-    this->input_type = input;
+Neuron::Neuron(const NEURON_TYPE neuron_type, const int index) {
+    this->neuron_type = neuron_type;
+    this->index = index;
 }
 
-Neuron::Neuron(const OUTPUT_TYPE output_type, const bool doTriggerOutput, const float trigger_floor)
-{
-    this->neurone_type = OUTPUT_NEURON;
-    this->output_type = output_type;
-    this->doTriggerOutput = doTriggerOutput;
-    this->trigger_floor = trigger_floor;
+void Neuron::add_input(const Neuron_link& input) {
+    this->inputs.push_back(input);
 }
 
-float Neuron::calculate_neuron(std::vector<float> input_list) const
-{
-    float res = 0.;
+float Neuron::calculate_neuron(const std::vector<float> &input_list, const std::array<float, LAYER_NEURON_LENGHT>& layer) const {
+    float res = 0.0f;
 
-    if (this->neurone_type == INPUT_NEURON)
-        return input_list[this->input_type];
-    for (const float input : input_list)
-        res += input;
-    res /= DEFAULT_INPUT_SIZE * input_list.size();
-    if (this->doTriggerOutput)
-        if (res > this->trigger_floor)
-            res = 1;
-        else if (res < -this->trigger_floor)
-            res = -1;
+    if (this->inputs.empty())
+        return res;
+    for (const Neuron_link& link : this->inputs) {
+        if (link.in_neuron == INPUT_NEURON)
+            res += link.weight * input_list[link.in_index];
         else
-            res = 0;
+            res += link.weight * layer[link.in_index];
+    }
+    res = std::tanh(res);
+    if (this->neuron_type == OUTPUT_NEURON) {
+        if (res > 0.5f)
+            res = 1.0f;
+        else if (res < -0.5f)
+            res = -1.0f;
+        else
+            res = 0.0f;
+    }
     return res;
 }
 
