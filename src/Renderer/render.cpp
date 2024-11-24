@@ -15,12 +15,12 @@
 
 using namespace std;
 
-static void draw_cells(Environnement &env, sf::RenderWindow *window, int grid_width, int grid_height)
+static void draw_cells(const Environnement &env, sf::RenderWindow *window, int grid_width, int grid_height)
 {
     sf::CircleShape shape(min(grid_width, grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y) / 2);
 
-    shape.setFillColor(sf::Color::Green);
-    for (Cell *cell : env.cell_list){
+    for (const Cell *cell : env.cell_list){
+        shape.setFillColor(cell->color);
         shape.setPosition((cell->x * grid_width) / GRID_SIZE_X, (cell->y * grid_height) / GRID_SIZE_Y);
         window->draw(shape);
     }
