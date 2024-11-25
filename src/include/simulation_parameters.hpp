@@ -12,9 +12,9 @@
 #define GEN_TO_START_RENDER 300
 #define ONE_PARENT true
 
-#define GENOME_LENGHT 8
-#define GEN_LENGHT 32
+#define GENOME_LENGTH 8
+#define GEN_LENGTH 32
 
-#define LAYER_NEURON_LENGHT 3
+#define LAYER_NEURON_LENGTH 3
 
 #endif

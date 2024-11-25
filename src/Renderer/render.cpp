@@ -61,7 +61,7 @@ static void draw_window(Environnement &env, sf::RenderWindow *window, int gen_nu
     draw_info("World size:       " + to_string(GRID_SIZE_X) + "x" + to_string(GRID_SIZE_Y), 85, text, window);
     draw_info("Population:       " + to_string(CELL_COUNT), 125, text, window);
     draw_info("Steps/gen:        " + to_string(STEP_PER_GEN), 165, text, window);
-    draw_info("Number of genes:  " + to_string(GENOME_LENGHT), 205, text, window);
+    draw_info("Number of genes:  " + to_string(GENOME_LENGTH), 205, text, window);
     draw_info("Mutation chance:  " + to_string((float)MUTATION_CHANCE/100) + "%", 245, text, window);
     draw_separation_line(window);
     draw_cells(env, window, WINDOW_SIZE_X - 500, WINDOW_SIZE_Y);

@@ -3,7 +3,7 @@
 
 #include "simulation_parameters.hpp"
 
-typedef std::array<bool, GEN_LENGHT> Gene;
+typedef std::array<bool, GEN_LENGTH> Gene;
 
 #define INDEX_SIZE 8
 

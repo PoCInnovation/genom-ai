@@ -17,7 +17,7 @@ void Neuron::add_input(const Neuron_link& input) {
     this->inputs.push_back(input);
 }
 
-float Neuron::calculate_neuron(const std::vector<float> &input_list, const std::array<float, LAYER_NEURON_LENGHT>& layer) const {
+float Neuron::calculate_neuron(const std::vector<float> &input_list, const std::array<float, LAYER_NEURON_LENGTH>& layer) const {
     float res = 0.0f;
 
     if (this->inputs.empty())

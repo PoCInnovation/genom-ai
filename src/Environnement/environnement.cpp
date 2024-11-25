@@ -1,10 +1,11 @@
+#include <vector>
+#include <cell.hpp>
+#include <random>
 #include "environnement.hpp"
 #include "simulation_parameters.hpp"
 #include "genome.hpp"
 #include "brain.hpp"
-#include <vector>
-#include <cell.hpp>
-#include <random>
+#include "custom_random.hpp"
 
 using namespace std;
 
@@ -27,12 +28,12 @@ void Environnement::clear()
 void Environnement::create_cell_to_rand_pos()
 {
     Cell *cell;
-    int x = rand() % GRID_SIZE_X;
-    int y = rand() % GRID_SIZE_Y;
+    int x = xorshift32() % GRID_SIZE_X;
+    int y = xorshift32() % GRID_SIZE_Y;
 
     while (GET_CELL(x, y) != nullptr) {
-        x = rand() % GRID_SIZE_X;
-        y = rand() % GRID_SIZE_Y;
+        x = xorshift32() % GRID_SIZE_X;
+        y = xorshift32() % GRID_SIZE_Y;
     }
     cell = new Cell(x, y, Genome());
     SET_CELL(cell, x, y);
@@ -41,12 +42,12 @@ void Environnement::create_cell_to_rand_pos()
 
 void Environnement::add_cell_to_rand_pos(Cell *cell)
 {
-    int x = rand() % GRID_SIZE_X;
-    int y = rand() % GRID_SIZE_Y;
+    int x = xorshift32() % GRID_SIZE_X;
+    int y = xorshift32() % GRID_SIZE_Y;
 
     while (GET_CELL(x, y) != nullptr) {
-        x = rand() % GRID_SIZE_X;
-        y = rand() % GRID_SIZE_Y;
+        x = xorshift32() % GRID_SIZE_X;
+        y = xorshift32() % GRID_SIZE_Y;
     }
     SET_CELL(cell, x, y);
     cell->setPos(x, y);

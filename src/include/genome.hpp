@@ -7,11 +7,11 @@
 
 class Genome {
     public:
-        std::array<Neuron_link, GENOME_LENGHT> neurone_link_list;
-        std::array<Gene, GENOME_LENGHT> gen_list{};
+        std::array<Neuron_link, GENOME_LENGTH> neurone_link_list;
+        std::array<Gene, GENOME_LENGTH> gen_list{};
 
         Genome();
-        explicit Genome(const std::array<Gene, GENOME_LENGHT> &gen_list);
+        explicit Genome(const std::array<Gene, GENOME_LENGTH> &gen_list);
         static Gene createRandomGene();
         ~Genome();
 };
