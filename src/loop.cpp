@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "simulation_parameters.hpp"
 #include "render.hpp"
@@ -7,6 +8,7 @@
 #include "die.hpp"
 #include "reproduction.hpp"
 #include "print_progress_bar.hpp"
+#include "replay.hpp"
 
 using namespace std;    
 
@@ -19,7 +21,7 @@ static void compute_cells(Environnement &env, Cell *cell)
     env.move_cell(cell, static_cast<int>(brain_output[0]), static_cast<int>(brain_output[1]));
 }
 
-static int compute_step(Environnement &env)
+int compute_step(Environnement &env)
 {
     for (Cell *cell : env.cell_list)
         compute_cells(env, cell);
@@ -45,6 +47,8 @@ int loop(sf::RenderWindow *window)
             for (int j = 0; j < CELL_COUNT; j++)
                 env.create_cell_to_rand_pos();
         } else {
+            if (gen % SAVE_EVERY_X_GEN == 0)
+                save_gen(env);
             apply_die_rule(env);
             reproduce_cells(env);
         }

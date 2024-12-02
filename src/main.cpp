@@ -13,6 +13,7 @@ using namespace std;
 
 extern unsigned int xor_seed;
 
+#if REPLAY_MODE == false
 int main()
 {
     sf::RenderWindow *window = nullptr;
@@ -23,3 +24,4 @@ int main()
     delete window;
     return 0;
 }
+#endif
