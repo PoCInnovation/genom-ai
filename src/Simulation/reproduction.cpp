@@ -13,6 +13,11 @@ static bool mutation_happen()
     return (rand() % 10000) <= MUTATION_CHANCE;
 }
 
+static bool doRandomCell()
+{
+    return (rand() % 10000) <= RANDOM_NEW_CELL_CHANCE;
+}
+
 static Gene get_gene(int link_index, const Cell *parent1, const Cell *parent2)
 {
     int rand_number = rand();
@@ -69,7 +74,7 @@ void linear_reproduce_cells(Environnement &env) {
         new_cells_list.push_back(new Cell(0, 0, Genome(gen_list)));
     }
     while (new_cells_list.size() < CELL_COUNT) {
-        if (rand() % 2 == 0) {
+        if (doRandomCell()) {
             gen_list = inherit_genes(env.cell_list[rand() % env.cell_list.size()], nullptr);
             new_cells_list.push_back(new Cell(0, 0, Genome(gen_list)));
         } else {
