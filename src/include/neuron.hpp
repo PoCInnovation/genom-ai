@@ -8,6 +8,7 @@
 class Neuron {
 
 public:
+    bool isActive = false;
     std::vector<Neuron_link> inputs;
     float value = 0.0f;
 

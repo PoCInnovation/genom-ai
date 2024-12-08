@@ -15,6 +15,8 @@ class Brain {
         Brain();
         ~Brain();
 
+        void activateNeuron(NEURON_TYPE neuron_type, int index);
+
         void addToNeurons(const Neuron_link &neuron_link);
 
         void setNeurons(const std::array<Neuron_link, GENOME_LENGHT>& neurone_link_list);
