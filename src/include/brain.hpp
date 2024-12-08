@@ -5,14 +5,13 @@
 #include "neuron_link.hpp"
 #include <array>
 
-#define EMPTY_VALUE (-2.0f)
-
 class Brain {
-    std::array<float, LAYER_NEURON_LENGHT> layer{};
+    std::array<bool, INPUT_SIZE> inputUsed{};
+    std::array<Neuron, LAYER_NEURON_LENGHT> layerNeurons{};
+    std::array<Neuron, OUTPUT_SIZE> outputNeurons{};
 
     public:
 
-        std::vector<Neuron> neurons;
         Brain();
         ~Brain();
 

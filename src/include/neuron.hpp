@@ -9,16 +9,13 @@ class Neuron {
 
 public:
     std::vector<Neuron_link> inputs;
-    NEURON_TYPE neuron_type = LAYER_NEURON;
-    int index = 0;
+    float value = 0.0f;
 
     Neuron();
 
-    explicit Neuron(NEURON_TYPE neuron_type, int index);
-
     void add_input(const Neuron_link& input);
 
-    float calculate_neuron(const std::vector<float> &input_list, const std::array<float, LAYER_NEURON_LENGHT>& layer) const;
+    void calculate_neuron(const std::vector<float> &input_list, const std::array<Neuron, LAYER_NEURON_LENGHT> &layer);
 
     ~Neuron();
 };
