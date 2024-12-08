@@ -4,6 +4,7 @@
 #include <array>
 #include "simulation_parameters.hpp"
 #include "neuron_link.hpp"
+#include "SFML/Graphics/Color.hpp"
 
 class Genome {
     public:
@@ -13,6 +14,9 @@ class Genome {
         Genome();
         explicit Genome(const std::array<Gene, GENOME_LENGHT> &gen_list);
         static Gene createRandomGene();
+
+        sf::Color getColor() const;
+
         ~Genome();
 };
 

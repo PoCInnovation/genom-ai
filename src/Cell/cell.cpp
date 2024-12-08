@@ -7,6 +7,7 @@ Cell::Cell(const int x, const int y, const Genome& genome)
     this->setPos(x, y);
     this->genome = genome;
     this->brain.setNeurons(this->genome.neurone_link_list);
+    this->color = this->genome.getColor();
 }
 
 void Cell::setPos(const int x, const int y)
