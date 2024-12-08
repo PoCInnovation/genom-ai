@@ -12,6 +12,7 @@ class Cell
         int y{};
         Genome genome;
         Brain brain{};
+        bool hasReproduce = false;
         sf::Color color{};
 
 

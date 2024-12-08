@@ -11,6 +11,7 @@
 #define MUTATION_CHANCE 100 // value is chance over 10 000, so here 1%
 #define GEN_TO_START_RENDER 300
 #define ONE_PARENT true
+#define RANDOM_PARENT false
 
 #define GENOME_LENGHT 8
 #define GEN_LENGHT 32
