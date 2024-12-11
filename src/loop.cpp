@@ -10,11 +10,12 @@
 #include "print_progress_bar.hpp"
 #include "replay.hpp"
 
-using namespace std;    
+using namespace std;
 
 static void compute_cells(Environnement &env, Cell *cell)
 {
-    const vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
+    const vector<float> inputs = {((static_cast<float>(cell->x)/static_cast<float>(GRID_SIZE_X))-0.5f)*2.0f, ((static_cast<float>(cell->y)/static_cast<float>(GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5,
+    env.get_crowd(cell, 0, -1), env.get_crowd(cell, 1, 0), env.get_crowd(cell, 0, 1), env.get_crowd(cell, -1, 0)};
 
     const array<float, OUTPUT_SIZE> brain_output = cell->brain.forward_cell(inputs);
 
@@ -50,6 +51,8 @@ int loop(sf::RenderWindow *window)
             if (gen % SAVE_EVERY_X_GEN == 0)
                 save_gen(env);
             apply_die_rule(env);
+            if (gen % 10 == 0)
+                printf(" survival: %f\n", (float)env.cell_list.size() / (float)CELL_COUNT);
             reproduce_cells(env);
         }
         if (gen == GEN_TO_START_RENDER && RENDER)

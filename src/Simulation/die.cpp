@@ -7,7 +7,7 @@
 static bool die_rule(const Cell *cell)
 {
     // die if not in the 25% left of the grid
-    return cell->x > GRID_SIZE_X * 0.25;
+    return cell->x > GRID_SIZE_X * 0.05;
 }
 
 void apply_die_rule(Environnement &env)

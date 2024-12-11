@@ -9,7 +9,7 @@
 #define FPS 300
 #define RENDER true
 #define MUTATION_CHANCE 100 // value is chance over 10 000, so here 1%
-#define GEN_TO_START_RENDER 320
+#define GEN_TO_START_RENDER 296
 #define ONE_PARENT true
 #define SAVE_EVERY_X_GEN 300
 #define REPLAY_MODE false

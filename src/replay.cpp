@@ -1,79 +1,9 @@
-// #include <iostream>
-// #include <vector>
-// #include "simulation_parameters.hpp"
-// #include "render.hpp"
-// #include "cell.hpp"
-// #include "environnement.hpp"
-// #include "die.hpp"
-// #include "reproduction.hpp"
-// #include "print_progress_bar.hpp"
-
-// using namespace std;    
-
-// static void compute_cells(Environnement &env, Cell *cell)
-// {
-//     const vector<float> inputs = {((((float)cell->x)/((float)GRID_SIZE_X))-0.5f)*2.0f, ((((float)cell->y)/((float)GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5};
-
-//     const array<float, OUTPUT_SIZE> brain_output = cell->brain.forward_cell(inputs);
-
-//     env.move_cell(cell, static_cast<int>(brain_output[0]), static_cast<int>(brain_output[1]));
-// }
-
-// static int compute_step(Environnement &env)
-// {
-//     for (Cell *cell : env.cell_list)
-//         compute_cells(env, cell);
-//     return 0;
-// }
-
-// static int compute_gen(Environnement &env, sf::RenderWindow *window, int gen)
-// {
-//     for (int j = 0; j < STEP_PER_GEN; j++){
-//         compute_step(env);
-//         if (gen >= GEN_TO_START_RENDER)
-//             render(env, window, gen);
-//     }
-//     return 0;
-// }
-
-// int loop(sf::RenderWindow *window)
-// {
-//     Environnement env = Environnement();
-
-//     for (int gen = 0; gen < MAX_GEN; gen++){
-//         if (gen == 0){
-//             for (int j = 0; j < CELL_COUNT; j++)
-//                 env.create_cell_to_rand_pos();
-//         } else {
-//             apply_die_rule(env);
-//             reproduce_cells(env);
-//         }
-//         if (gen == GEN_TO_START_RENDER && RENDER)
-//             window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
-//         compute_gen(env, window, gen);
-//         if (gen < GEN_TO_START_RENDER)
-//             print_progress_bar(((float)gen)/((float)GEN_TO_START_RENDER));
-//     }
-//     return 0;
-// }
-
-// int replay_gen()
-// {
-
-// }
-
-// int main()
-// {
-//     replay_gen();
-// }
-
-
-
 #include <iostream>
 #include <sstream>
 #include <vector>
 #include <fstream>
 #include <string>
+#include <sys/stat.h>
 #include "environnement.hpp"
 #include "render.hpp"
 #include "cell.hpp"
@@ -103,15 +33,27 @@ Gene int_to_gene(int int_gene)
     return gene;
 }
 
+ofstream get_save(string filename)
+{
+    struct stat folder_info;
+
+    if (stat("../save", &folder_info) != 0)
+        mkdir("../save", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    return ofstream("../save/" + filename);
+}
+
 int save_gen(Environnement &env)
 {
-    ofstream file("../save_gen.txt");
+    ofstream file = get_save("save_gen.txt");
 
-    for (Cell *cell : env.cell_list) {
-        for (Gene &gene : cell->genome.gen_list){
-            file << gene_to_int(gene) << " ";
+    for (int i = 0; i < env.cell_list.size(); i++) {
+        for (int j = 0; j < env.cell_list[i]->genome.gen_list.size(); j++) {
+            file << gene_to_int(env.cell_list[i]->genome.gen_list[j]);
+            if (j != env.cell_list[i]->genome.gen_list.size() - 1)
+                file << " ";
         }
-        file << "\n";
+        if (i != env.cell_list.size() - 1)
+            file << "\n";
     }
     file.close();
     return 0;
@@ -121,7 +63,7 @@ vector<Cell *> load_cell(string filename)
 {
     array<Gene, GENOME_LENGTH> gene_list = {};
     vector<Cell *> cell_list = {};
-    std::ifstream file(filename);
+    std::ifstream file("../save/" + filename);
     std::string line;
     int num;
 
@@ -142,12 +84,17 @@ int main()
     Environnement env = Environnement();
     vector<Cell *> cell_list;
 
-    cell_list = load_cell("../save_gen.txt");
-    for (Cell *cell : cell_list)
-        env.add_cell_to_rand_pos(cell);
-    for (int j = 0; j < STEP_PER_GEN; j++){
-        compute_step(env);
-        render(env, &window, 0);
+    cell_list = load_cell("save_gen.txt");
+    while (1) {
+        for (Cell *cell : cell_list)
+            env.add_cell_to_rand_pos(cell);
+        for (int j = 0; j < STEP_PER_GEN; j++){
+            compute_step(env);
+            render(env, &window, 0);
+        }
+        for (int y = 0; y < GRID_SIZE_Y; y++)
+            for (int x = 0; x < GRID_SIZE_X; x++)
+                SET_ENV_CELL(&env, nullptr, x, y);
     }
     return 0;
 }

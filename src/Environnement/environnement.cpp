@@ -13,6 +13,17 @@ Environnement::Environnement()
 {
     this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
     this->cell_list = vector<Cell *>();
+
+    this->obstacle_list = vector<bool>();
+    this->obstacle_list.assign(GRID_SIZE_X * GRID_SIZE_Y, false);
+    this->draw_obstacle_square(15, 0, 2, 50);
+    this->draw_obstacle_square(25, 50, 2, 50);
+}
+
+void Environnement::draw_obstacle_square(int x, int y, int w, int h)
+{
+    for (int i = 0; i < w * h; i++)
+        this->obstacle_list[((y+((int)i/w))*GRID_SIZE_X)+(i%w)+x] = true;
 }
 
 void Environnement::clear()
@@ -31,7 +42,7 @@ void Environnement::create_cell_to_rand_pos()
     int x = xorshift32() % GRID_SIZE_X;
     int y = xorshift32() % GRID_SIZE_Y;
 
-    while (GET_CELL(x, y) != nullptr) {
+    while (!this->is_pos_free(x, y)) {
         x = xorshift32() % GRID_SIZE_X;
         y = xorshift32() % GRID_SIZE_Y;
     }
@@ -45,7 +56,7 @@ void Environnement::add_cell_to_rand_pos(Cell *cell)
     int x = xorshift32() % GRID_SIZE_X;
     int y = xorshift32() % GRID_SIZE_Y;
 
-    while (GET_CELL(x, y) != nullptr) {
+    while (!this->is_pos_free(x, y)) {
         x = xorshift32() % GRID_SIZE_X;
         y = xorshift32() % GRID_SIZE_Y;
     }
@@ -57,6 +68,8 @@ void Environnement::add_cell_to_rand_pos(Cell *cell)
 bool Environnement::is_pos_free(int x, int y)
 {
     if (x >= GRID_SIZE_X || x < 0 || y >= GRID_SIZE_Y || y < 0)
+        return false;
+    if (this->obstacle_list[y*GRID_SIZE_X+x] == true)
         return false;
     return GET_CELL(x, y) == nullptr;
 }
@@ -73,6 +86,16 @@ void Environnement::move_cell(Cell *cell, int x_offset, int y_offset)
         SET_CELL(nullptr, cell->x, cell->y);
         cell->setPos(cell->x, cell->y + y_offset);
     }
+}
+
+float Environnement::get_crowd(Cell *cell, int x_offset, int y_offset, int distance /* default = 3 */)
+{
+    float crowd = 0;
+
+    for (int i = 1; i < distance + 1; i++)
+        if (!this->is_pos_free(cell->x + x_offset * i, cell->y + y_offset * i))
+            crowd++;
+    return crowd / distance;
 }
 
 Environnement::~Environnement()
