@@ -3,6 +3,7 @@
 
 #include "brain.hpp"
 #include "genome.hpp"
+#include "SFML/Graphics/Color.hpp"
 
 class Cell
 {
@@ -11,6 +12,8 @@ class Cell
         int y{};
         Genome genome;
         Brain brain{};
+        bool hasReproduce = false;
+        sf::Color color{};
 
 
         Cell(int x, int y, const Genome& genome);

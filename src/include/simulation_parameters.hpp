@@ -6,6 +6,8 @@
 #define GRID_SIZE_Y 100
 #define MAX_GEN 301
 #define STEP_PER_GEN 150
+#define GEN_TO_START_RENDER 300
+
 #define FPS 300
 #define RENDER true
 #define MUTATION_CHANCE 100 // value is chance over 10 000, so here 1%
@@ -13,6 +15,8 @@
 #define ONE_PARENT true
 #define SAVE_EVERY_X_GEN 300
 #define REPLAY_MODE false
+#define RANDOM_NEW_CELL_CHANCE 500 // value is chance over 10 000, so here 5%
+#define RANDOM_PARENT false
 
 #define GENOME_LENGTH 8
 #define GEN_LENGTH 32

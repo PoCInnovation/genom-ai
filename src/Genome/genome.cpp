@@ -1,5 +1,6 @@
 #include <array>
 #include <stdlib.h>
+#include <cstdlib>
 #include "genome.hpp"
 #include "neuron_link.hpp"
 #include "custom_random.hpp"
@@ -41,3 +42,22 @@ Gene Genome::createRandomGene() {
 
     return bit_gen;
 }
+
+sf::Color Genome::getColor() const {
+    int input = 0;
+    int layer = 0;
+    int output = 0;
+    for (const Neuron_link& link : this->neurone_link_list) {
+        if (link.in_neuron == INPUT_NEURON)
+            ++input;
+        else
+            ++layer;
+        if (link.out_neuron == OUTPUT_NEURON)
+            ++output;
+        else
+            ++layer;
+    }
+    return sf::Color(input * (255 / GENOME_LENGHT), layer * (127 / GENOME_LENGHT), output * (255 / GENOME_LENGHT));
+}
+
+
