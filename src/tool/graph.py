@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Optional
 import matplotlib.pyplot as plt
 import igraph as ig
 import random
@@ -8,7 +7,6 @@ import time
 
 
 random.seed(time.time())
-GEN_LENGHT = 4
 LAYER_SIZE = 32
 INPUT_NEURON_LIST = ["X_POS","Y_POS","CONST_1","CONST_0","CONST_MINUS_1","CONST_HALF","CONST_MINUS_HALF","CROWD_TOP","CROWD_RIGHT","CROWD_BOT","CROWD_LEFT"]
 LAYER_NEURON_LIST = [f"Layer {i}" for i in range(LAYER_SIZE)]
@@ -40,11 +38,8 @@ class NeuronLink:
 class Genome:
     genome: list[list[int]]
 
-    def __init__(self, intgenome: list[int] = None):
-        if intgenome is None:
-            self.genome = [[random.randint(0, 1) for _ in range(32)] for _ in range(GEN_LENGHT)]
-        else :
-            self.genome = [int_to_bit_list(gen) for gen in intgenome]
+    def __init__(self, intgenome: list[int]):
+        self.genome = [int_to_bit_list(gen) for gen in intgenome]
 
     def to_neuron_link_list(self):
         return [NeuronLink(gen[0] == 1, bit_list_to_int(gen[1:8]), gen[8] == 1, bit_list_to_int(gen[9:16]),
@@ -84,24 +79,6 @@ def int_to_bit_list(gen: int) -> list[int]:
     return [int(bit) for bit in f"{gen:032b}".replace("-", "")]
 
 
-
-# def parcour(node, memory, node_list_to_draw, weight_list, edges) -> bool:
-#     memory.append(node)
-#     if node.type == "input":
-#         return True
-    
-#     end_with_an_input = False
-#     for input, weight in zip(node.input, node.input_weight):
-#         if input in memory:
-#             continue
-#         if parcour(input, memory, node_list_to_draw, weight_list, edges):
-#             end_with_an_input = True
-#             if input not in node_list_to_draw:
-#                 node_list_to_draw.append(input)
-#             edges.append((node_list_to_draw.index(input), node_list_to_draw.index(node)))
-#             weight_list.append(weight / pow(2, 15))
-#     return end_with_an_input
-
 def parcour(node: Node, memory: list, node_list_to_draw: list, weight_list: list, edges: list):
     end_with_input = False
     
@@ -122,7 +99,6 @@ def parcour(node: Node, memory: list, node_list_to_draw: list, weight_list: list
     return end_with_input
 
 
-
 def get_graph(genome: Genome):
     links = genome.to_neuron_link_list()
     
@@ -139,16 +115,6 @@ def get_graph(genome: Genome):
     for node in node_list:
         if node.type == "output":
             parcour(node, [], node_list_to_draw, weight_list, edges)
-    
-
-    # edges = [(link.get_input_index(), link.get_output_index()) for link in links]
-
-    # vertices_count = len(NEURON_LIST)
-    
-    # g = ig.Graph(vertices_count, edges, directed=True)
-    # g.vs["name"] = NEURON_LIST
-    # g.vs["type"] = NEURON_TYPE_LIST
-    # g.es["weight"] = [link.weight / pow(2, 15) for link in links]
     
     vertices_count = len(node_list_to_draw)
     g = ig.Graph(vertices_count, edges, directed=True)
