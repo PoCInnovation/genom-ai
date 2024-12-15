@@ -14,7 +14,7 @@ Brain::Brain()
 Brain::~Brain()
 = default;
 
-void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGHT>& neurone_link_list) {
+void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGTH>& neurone_link_list) {
     for (const Neuron_link& neuron_link : neurone_link_list) {
         addToNeurons(neuron_link);
     }

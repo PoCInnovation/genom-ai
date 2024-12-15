@@ -24,6 +24,8 @@ add_executable(genomAI
     src/Renderer/render.cpp
     src/Simulation/die.cpp
     src/Simulation/reproduction.cpp
+    src/custom_random.cpp
+    src/replay.cpp
     src/loop.cpp
     src/main.cpp
     src/print_progress_bar.cpp
@@ -39,6 +41,8 @@ add_executable(genomAI
     src/include/reproduction.hpp
     src/include/simulation_parameters.hpp
     src/include/print_progress_bar.hpp
+    src/include/custom_random.hpp
+    src/include/replay.hpp
 )
 
 include_directories(src/include)
