@@ -3,7 +3,7 @@
 
 #include "simulation_parameters.hpp"
 
-typedef std::array<bool, GEN_LENGHT> Gene;
+typedef std::array<bool, GEN_LENGTH> Gene;
 
 #define INDEX_SIZE 8
 
@@ -18,6 +18,10 @@ enum INPUT_TYPE {
     CONST_MINUS_1,
     CONST_HALF,
     CONST_MINUS_HALF,
+    CROWD_TOP,
+    CROWD_RIGHT,
+    CROWD_BOT,
+    CROWD_LEFT,
     INPUT_SIZE
 };
 

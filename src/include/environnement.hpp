@@ -14,13 +14,16 @@ class Environnement
     public:
         std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
+        std::vector<bool> obstacle_list;
 
         Environnement();
         void clear();
         void create_cell_to_rand_pos();
+        void draw_obstacle_square(int x, int y, int w, int h);
         void add_cell_to_rand_pos(Cell *);
         bool is_pos_free(int x, int y);
         void move_cell(Cell *, int x_offset, int y_offset);
+        float get_crowd(Cell *cell, int x_offset, int y_offset, int distance = 3);
         ~Environnement();
 };
 

@@ -13,7 +13,7 @@ void Neuron::add_input(const Neuron_link& input) {
 }
 
 void Neuron::calculate_neuron(const std::vector<float> &input_list,
-                              const std::array<Neuron, LAYER_NEURON_LENGHT> &layer) {
+                              const std::array<Neuron, LAYER_NEURON_LENGTH> &layer) {
     float res = 0.0f;
 
     for (const Neuron_link& link : this->inputs) {
