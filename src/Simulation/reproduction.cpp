@@ -41,7 +41,7 @@ static std::array<Gene, GENOME_LENGTH> inherit_genes(const Cell *parent1, Cell *
     std::array<Gene, GENOME_LENGTH> gen_list{};
 
     for (int i = 0; i < GENOME_LENGTH; i++){
-#if ONE_PARENT
+#if ONE_PARENT || !RANDOM_REPRODUCE
         gen_list[i] = parent1->genome.gen_list[i];
 #else
         gen_list[i] = get_gene(i, parent1, parent2);

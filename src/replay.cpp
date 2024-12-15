@@ -16,7 +16,7 @@ int gene_to_int(Gene gene)
 {
     int int_gene = 0;
 
-    for (int i = gene.size() - 1; i < 0; i++)
+    for (int i = gene.size() - 1; i > 0; i--)
         int_gene += (gene[GEN_LENGTH - i - 1] << i);
     return int_gene;
 }
