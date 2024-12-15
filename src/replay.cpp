@@ -30,6 +30,7 @@ Gene int_to_gene(int int_gene)
     return gene;
 }
 
+#if __unix__
 ofstream get_save(string filename)
 {
     struct stat folder_info;
@@ -38,6 +39,16 @@ ofstream get_save(string filename)
         mkdir("../save", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     return ofstream("../save/" + filename);
 }
+#else
+ofstream get_save(const string& filename)
+{
+    struct _stat64i32 folder_info{};
+
+    if (_stat(SAVE_FOLDER_PATH, &folder_info) != 0)
+        mkdir(SAVE_FOLDER_PATH);
+    return ofstream(string(SAVE_FOLDER_PATH) + "/" + filename);
+}
+#endif
 
 int save_gen(Environnement &env)
 {
@@ -60,7 +71,11 @@ vector<Cell *> load_cell(string filename)
 {
     array<Gene, GENOME_LENGTH> gene_list = {};
     vector<Cell *> cell_list = {};
+#if __unix__
     std::ifstream file("../save/" + filename);
+#else
+    std::ifstream file(string(SAVE_FOLDER_PATH) + "/" + filename);
+#endif
     std::string line;
     int num;
 
