@@ -69,7 +69,7 @@ bool Environnement::is_pos_free(int x, int y)
 {
     if (x >= GRID_SIZE_X || x < 0 || y >= GRID_SIZE_Y || y < 0)
         return false;
-    if (this->obstacle_list[y*GRID_SIZE_X+x] == true)
+    if (this->obstacle_list[y*GRID_SIZE_X+x])
         return false;
     return GET_CELL(x, y) == nullptr;
 }

@@ -15,12 +15,9 @@ using namespace std;
 int gene_to_int(Gene gene)
 {
     int int_gene = 0;
-    int i = gene.size() - 1;
 
-    for (bool bit : gene) {
-        int_gene += bit << i;
-        i--;
-    }
+    for (int i = gene.size() - 1; i < 0; i++)
+        int_gene += (gene[GEN_LENGTH - i - 1] << i);
     return int_gene;
 }
 
@@ -77,7 +74,7 @@ vector<Cell *> load_cell(string filename)
     return cell_list;
 }
 
-#if REPLAY_MODE == true
+#if REPLAY_MODE
 int main()
 {
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");

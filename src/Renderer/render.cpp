@@ -32,7 +32,7 @@ static void draw_obstacles(Environnement &env, sf::RenderWindow *window, int gri
 
     shape.setFillColor(sf::Color::Blue);
     for (int i = 0; i < GRID_SIZE_X * GRID_SIZE_Y; i++) {
-        if (env.obstacle_list[i] == true){
+        if (env.obstacle_list[i]){
             shape.setPosition(((i % GRID_SIZE_X) * grid_width) / max(GRID_SIZE_X, GRID_SIZE_Y), (((int)i / GRID_SIZE_X) * grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y));
             window->draw(shape);
         }
@@ -105,7 +105,7 @@ void render(Environnement &env, sf::RenderWindow *window, int gen_number)
 {
     sf::Event event;
 
-    if (RENDER == false)
+    if (!RENDER)
         return;
     while (window->pollEvent(event))
         if (event.type == sf::Event::Closed)

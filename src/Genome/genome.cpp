@@ -57,7 +57,7 @@ sf::Color Genome::getColor() const {
         else
             ++layer;
     }
-    return sf::Color(input * (255 / GENOME_LENGHT), layer * (127 / GENOME_LENGHT), output * (255 / GENOME_LENGHT));
+    return sf::Color(input * (255 / GENOME_LENGTH), layer * (127 / GENOME_LENGTH), output * (255 / GENOME_LENGTH));
 }
 
 

@@ -7,7 +7,7 @@ import time
 
 
 random.seed(time.time())
-GEN_LENGHT = 4
+GEN_LENGTH = 4
 LAYER_SIZE = 3
 INPUT_NEURON_LIST = ["X_POS","Y_POS","CONST_1","CONST_0","CONST_MINUS_1","CONST_HALF","CONST_MINUS_HALF"]
 LAYER_NEURON_LIST = [f"Layer {i}" for i in range(LAYER_SIZE)]
@@ -41,7 +41,7 @@ class Genome:
 
     def __init__(self, intgenome: list[int] = None):
         if intgenome is None:
-            self.genome = [[random.randint(0, 1) for _ in range(32)] for _ in range(GEN_LENGHT)]
+            self.genome = [[random.randint(0, 1) for _ in range(32)] for _ in range(GEN_LENGTH)]
         else :
             self.genome = [int_to_bit_list(gen) for gen in intgenome]
 

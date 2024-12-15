@@ -13,13 +13,13 @@ using namespace std;
 
 extern unsigned int xor_seed;
 
-#if REPLAY_MODE == false
+#if !REPLAY_MODE
 int main()
 {
     sf::RenderWindow *window = nullptr;
 
     srand(time(nullptr));
-    xor_seed = rand();
+    xor_seed = static_cast<unsigned int>(time(nullptr));
     loop(window);
     delete window;
     return 0;
