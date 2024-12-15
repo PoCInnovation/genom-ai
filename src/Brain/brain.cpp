@@ -14,34 +14,59 @@ Brain::Brain()
 Brain::~Brain()
 = default;
 
+void Brain::activateNeuron(const NEURON_TYPE neuron_type, int index) {
+    if (neuron_type == INPUT_NEURON) {
+        this->inputUsed[index] = true;
+        return;
+    }
+    Neuron &neuron = this->layerNeurons[index];
+    if (neuron.isActive)
+        return;
+    neuron.isActive = true;
+    for (const Neuron_link& neuron_link : neuron.inputs) {
+        activateNeuron(neuron_link.in_neuron, neuron_link.in_index);
+    }
+}
+
 void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGTH>& neurone_link_list) {
     for (const Neuron_link& neuron_link : neurone_link_list) {
         addToNeurons(neuron_link);
     }
+
+    for (const Neuron& neuron : this->outputNeurons) {
+        for (const Neuron_link& neuron_link : neuron.inputs) {
+            activateNeuron(neuron_link.in_neuron, neuron_link.in_index);
+        }
+    }
 }
 
 void Brain::addToNeurons(const Neuron_link& neuron_link) {
-    for (Neuron& neuron : this->neurons)
-        if (neuron.neuron_type == neuron_link.out_neuron && neuron.index == neuron_link.out_index) {
-            neuron.add_input(neuron_link);
-            return;
-        }
-    Neuron new_neuron(neuron_link.out_neuron, neuron_link.out_index);
-    new_neuron.add_input(neuron_link);
-    this->neurons.push_back(new_neuron);
+    if (neuron_link.out_neuron == LAYER_NEURON)
+        this->layerNeurons[neuron_link.out_index].add_input(neuron_link);
+    else
+        this->outputNeurons[neuron_link.out_index].add_input(neuron_link);
+}
+
+static float roundOutputResult(const float res) {
+    if (res > 0.5f)
+        return 1.0f;
+    if (res < -0.5f)
+        return -1.0f;
+    return 0.0f;
 }
 
 array<float, OUTPUT_SIZE> Brain::forward_cell(const vector<float> &input_list) {
 
     array<float, OUTPUT_SIZE> output{};
-    float result = 0;
 
-    for (Neuron& neuron : this->neurons) {
-        result = neuron.calculate_neuron(input_list, this->layer);
-        if (neuron.neuron_type == LAYER_NEURON)
-            this->layer[neuron.index] = result;
-        else
-            output[neuron.index] = result;
+    for (int i = 0; i < OUTPUT_SIZE; i++) {
+        Neuron& neuron = this->outputNeurons[i];
+        neuron.calculate_neuron(input_list, this->layerNeurons);
+        output[i] = roundOutputResult(neuron.value);
+    }
+    for (Neuron& neuron : this->layerNeurons) {
+        if (neuron.isActive)
+            neuron.calculate_neuron(input_list, this->layerNeurons);
     }
     return output;
 }
