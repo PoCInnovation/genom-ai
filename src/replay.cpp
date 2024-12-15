@@ -35,9 +35,9 @@ ofstream get_save(string filename)
 {
     struct stat folder_info;
 
-    if (stat("../save", &folder_info) != 0)
-        mkdir("../save", S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    return ofstream("../save/" + filename);
+    if (stat(SAVE_FOLDER_PATH, &folder_info) != 0)
+        mkdir(SAVE_FOLDER_PATH, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    return ofstream(string(SAVE_FOLDER_PATH) + "/" + filename);
 }
 #else
 ofstream get_save(const string& filename)
@@ -72,7 +72,7 @@ vector<Cell *> load_cell(string filename)
     array<Gene, GENOME_LENGTH> gene_list = {};
     vector<Cell *> cell_list = {};
 #if __unix__
-    std::ifstream file("../save/" + filename);
+    std::ifstream file(string(SAVE_FOLDER_PATH) + "/" + filename);
 #else
     std::ifstream file(string(SAVE_FOLDER_PATH) + "/" + filename);
 #endif
