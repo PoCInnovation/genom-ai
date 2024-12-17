@@ -22,6 +22,8 @@ enum INPUT_TYPE {
     CROWD_RIGHT,
     CROWD_BOT,
     CROWD_LEFT,
+    FOOD_BAR,
+    WATER_BAR,
     INPUT_SIZE
 };
 

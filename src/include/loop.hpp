@@ -4,7 +4,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "environnement.hpp"
 
-int compute_step(Environnement &env);
+int compute_step(Environnement &env, int gen);
 int loop(sf::RenderWindow *window);
 
 #endif

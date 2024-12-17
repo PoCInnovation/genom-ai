@@ -15,6 +15,8 @@ class Environnement
         std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
         std::vector<bool> obstacle_list;
+        std::array<float, CELL_COUNT> food_bar;
+        std::array<float, CELL_COUNT> water_bar;
 
         Environnement();
         void clear();

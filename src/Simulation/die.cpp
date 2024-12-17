@@ -3,11 +3,12 @@
 #include "cell.hpp"
 #include "environnement.hpp"
 #include "simulation_parameters.hpp"
+#include "custom_random.hpp"
 
 static bool die_rule(const Cell *cell)
 {
     // die if not in the 25% left of the grid
-    return cell->x > GRID_SIZE_X * 0.05;
+    return !cell->alive && (xorshift32()%100 > 20);
 }
 
 void apply_die_rule(Environnement &env)

@@ -13,11 +13,15 @@ Environnement::Environnement()
 {
     this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
     this->cell_list = vector<Cell *>();
-
+    this->food_bar = array<float, CELL_COUNT>();
+    this->water_bar = array<float, CELL_COUNT>();
     this->obstacle_list = vector<bool>();
+
+    this->food_bar.fill(0.0f);
+    this->water_bar.fill(0.0f);
     this->obstacle_list.assign(GRID_SIZE_X * GRID_SIZE_Y, false);
-    this->draw_obstacle_square(15, 0, 2, 50);
-    this->draw_obstacle_square(25, 50, 2, 50);
+    // this->draw_obstacle_square(15, 0, 2, 50);
+    // this->draw_obstacle_square(25, 50, 2, 50);
 }
 
 void Environnement::draw_obstacle_square(int x, int y, int w, int h)

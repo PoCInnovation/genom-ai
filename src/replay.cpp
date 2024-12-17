@@ -101,7 +101,7 @@ int main()
         for (Cell *cell : cell_list)
             env.add_cell_to_rand_pos(cell);
         for (int j = 0; j < STEP_PER_GEN; j++){
-            compute_step(env);
+            compute_step(env, 0);
             render(env, &window, 0);
         }
         for (int y = 0; y < GRID_SIZE_Y; y++)

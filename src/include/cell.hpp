@@ -10,6 +10,7 @@ class Cell
     public:
         int x{};
         int y{};
+        bool alive;
         Genome genome;
         Brain brain{};
         bool hasReproduce = false;
