@@ -11,6 +11,7 @@ class Brain {
     std::array<Neuron, OUTPUT_SIZE> outputNeurons{};
 
     public:
+        std::array<float, OUTPUT_SIZE> outputResults{};
 
         Brain();
         ~Brain();
@@ -21,7 +22,7 @@ class Brain {
 
         void setNeurons(const std::array<Neuron_link, GENOME_LENGTH>& neurone_link_list);
 
-        std::array<float, OUTPUT_SIZE> forward_cell(const std::vector<float> &input_list);
+    void forward_cell(const std::vector<float> &input_list);
 };
 
 #endif

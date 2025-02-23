@@ -1,20 +1,22 @@
 #ifndef ENVIRONNEMENT_HPP
 #define ENVIRONNEMENT_HPP
 
+#include <thread>
 #include <vector>
 #include "cell.hpp"
-#include "brain.hpp"
 #define GET_ENV_CELL(env, x, y) (env)->map[(y)*GRID_SIZE_X+(x)]
 #define SET_ENV_CELL(env, cell, x, y) (env)->map[(y)*GRID_SIZE_X+(x)] = (cell)
 #define GET_CELL(x, y) GET_ENV_CELL(this, (x), (y))
 #define SET_CELL(cell, x, y) SET_ENV_CELL(this, (cell), (x), (y))
 
 class Environnement
-{  
+{
     public:
         std::vector<Cell *> map;
         std::vector<Cell *> cell_list;
         std::vector<bool> obstacle_list;
+        size_t max_threads = std::thread::hardware_concurrency();
+        size_t chunk_size = (CELL_COUNT + max_threads - 1) / max_threads;;
 
         Environnement();
         void clear();

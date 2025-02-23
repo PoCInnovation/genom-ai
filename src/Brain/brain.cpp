@@ -55,18 +55,15 @@ static float roundOutputResult(const float res) {
     return 0.0f;
 }
 
-array<float, OUTPUT_SIZE> Brain::forward_cell(const vector<float> &input_list) {
-
-    array<float, OUTPUT_SIZE> output{};
+void Brain::forward_cell(const vector<float> &input_list) {
 
     for (int i = 0; i < OUTPUT_SIZE; i++) {
         Neuron& neuron = this->outputNeurons[i];
         neuron.calculate_neuron(input_list, this->layerNeurons);
-        output[i] = roundOutputResult(neuron.value);
+        this->outputResults[i] = roundOutputResult(neuron.value);
     }
     for (Neuron& neuron : this->layerNeurons) {
         if (neuron.isActive)
             neuron.calculate_neuron(input_list, this->layerNeurons);
     }
-    return output;
 }
