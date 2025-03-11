@@ -29,13 +29,8 @@ class CellListWidget(QListWidget):
         
         self.parent_window = parent
         with open(save_filename, "r") as f:
-            genes = [list(map(int, line.split(" "))) for line in f.read().split("\n")]
-        genes_dict = {}
-        for gene in genes:
-            if str(gene) in genes_dict:
-                genes_dict[str(gene)][1] += 1
-            else:
-                genes_dict[str(gene)] = [gene, 1]
+            genes = [tuple(map(int, line.split(" "))) for line in f.read().split("\n")]
+        genes_dict = {str(gene):[gene, genes.count(gene)] for gene in set(genes)}
         self.cell_list = [Cell(f"Gene {i+1}   {count}/{len(genes)}", Genome(gene)) for i, (gene, count) in enumerate(sorted(genes_dict.values(), key=lambda x:x[1], reverse=True))]
         self.insertItems(0, (cell.name for cell in self.cell_list))
         self.currentRowChanged.connect(self.new_cell_selected)
