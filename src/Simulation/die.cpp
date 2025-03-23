@@ -4,10 +4,10 @@
 #include "environnement.hpp"
 #include "simulation_parameters.hpp"
 
-static bool die_rule(const Cell *cell)
+static bool die_rule(const ICell *cell)
 {
     // die if not in the 25% left of the grid
-    return cell->x > GRID_SIZE_X * 0.05;
+    return cell->getXPos() > GRID_SIZE_X * 0.05;
 }
 
 void apply_die_rule(Environnement &env)

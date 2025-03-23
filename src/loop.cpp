@@ -13,22 +13,22 @@
 
 using namespace std;
 
-static void compute_cells(Environnement &env, Cell *cell)
+static void compute_cells(Environnement &env, ICell *cell)
 {
-    const vector<float> inputs = {((static_cast<float>(cell->x)/static_cast<float>(GRID_SIZE_X))-0.5f)*2.0f, ((static_cast<float>(cell->y)/static_cast<float>(GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5,
+    const vector<float> inputs = {((static_cast<float>(cell->getXPos())/static_cast<float>(GRID_SIZE_X))-0.5f)*2.0f, ((static_cast<float>(cell->getYPos())/static_cast<float>(GRID_SIZE_Y))-0.5f)*2.0f, 1, 0, -1, 0.5, -0.5,
     env.get_crowd(cell, 0, -1), env.get_crowd(cell, 1, 0), env.get_crowd(cell, 0, 1), env.get_crowd(cell, -1, 0)};
 
-    cell->brain.forward_cell(inputs);
+    cell->forwardCell(inputs);
 }
 
-static void compute_cells_chunk(Environnement &env, const std::vector<Cell *>::iterator start, const std::vector<Cell *>::iterator end) {
+static void compute_cells_chunk(Environnement &env, const std::vector<ICell *>::iterator start, const std::vector<ICell *>::iterator end) {
     for (auto it = start; it != end; ++it) {
         compute_cells(env, *it);
     }
 }
 
-static void forward_cell(Environnement &env, Cell *cell) {
-    const array<float, OUTPUT_SIZE> brain_output =  cell->brain.outputResults;
+static void forward_cell(Environnement &env, ICell *cell) {
+    const array<float, OUTPUT_SIZE> brain_output =  cell->getOutputs();
 
     env.move_cell(cell, static_cast<int>(brain_output[0]), static_cast<int>(brain_output[1]));
 }
@@ -46,7 +46,7 @@ int compute_step(Environnement &env)
     }
     for (std::thread &thread : threads)
         thread.join();
-    for (Cell *cell : env.cell_list)
+    for (ICell *cell : env.cell_list)
         forward_cell(env, cell);
     return 0;
 }

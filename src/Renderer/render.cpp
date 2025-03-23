@@ -19,9 +19,9 @@ static void draw_cells(const Environnement &env, sf::RenderWindow *window, int g
 {
     sf::CircleShape shape(min(grid_width, grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y) / 2);
 
-    for (const Cell *cell : env.cell_list){
-        shape.setFillColor(cell->color);
-        shape.setPosition((cell->x * grid_width) / max(GRID_SIZE_X, GRID_SIZE_Y), (cell->y * grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y));
+    for (const ICell *cell : env.cell_list){
+        shape.setFillColor(cell->getColor());
+        shape.setPosition((cell->getXPos() * grid_width) / max(GRID_SIZE_X, GRID_SIZE_Y), (cell->getYPos() * grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y));
         window->draw(shape);
     }
 }
@@ -51,13 +51,13 @@ static void draw_wall(Environnement &env, sf::RenderWindow *window, int grid_wid
     sf::CircleShape shape(min(grid_width, grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y) / 2);
 
     shape.setFillColor(sf::Color::Red);
-    if (GRID_SIZE_Y < GRID_SIZE_X) {
+    if constexpr (GRID_SIZE_Y < GRID_SIZE_X) {
         for (int x = 0; x < GRID_SIZE_X; x++) {
             shape.setPosition((x * grid_width) / max(GRID_SIZE_X, GRID_SIZE_Y), (GRID_SIZE_Y * grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y));
             window->draw(shape);
         }
     }
-    if (GRID_SIZE_X < GRID_SIZE_Y) {
+    if constexpr (GRID_SIZE_X < GRID_SIZE_Y) {
         for (int y = 0; y < GRID_SIZE_Y; y++) {
             shape.setPosition((GRID_SIZE_X * grid_width) / max(GRID_SIZE_X, GRID_SIZE_Y), (y * grid_height) / max(GRID_SIZE_X, GRID_SIZE_Y));
             window->draw(shape);
@@ -103,9 +103,9 @@ static void draw_window(Environnement &env, sf::RenderWindow *window, int gen_nu
 
 void render(Environnement &env, sf::RenderWindow *window, int gen_number)
 {
-    sf::Event event;
+    sf::Event event{};
 
-    if (!RENDER)
+    if constexpr (!RENDER)
         return;
     while (window->pollEvent(event))
         if (event.type == sf::Event::Closed)

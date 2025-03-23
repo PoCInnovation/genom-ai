@@ -43,9 +43,13 @@ add_executable(genomAI
     src/include/print_progress_bar.hpp
     src/include/custom_random.hpp
     src/include/replay.hpp
+        src/include/Interfaces/ibrain.hpp
+        src/include/Interfaces/icell.hpp
+        src/include/Interfaces/ineuron.hpp
+        src/include/factory.hpp
 )
 
-include_directories(src/include)
+target_include_directories(genomAI PRIVATE src/include src/include/Interfaces)
 
 target_link_libraries(genomAI PRIVATE sfml-graphics)
 target_compile_features(genomAI PRIVATE cxx_std_17)

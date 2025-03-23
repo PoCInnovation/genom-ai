@@ -8,22 +8,25 @@
 
 using namespace std;
 
-Brain::Brain()
-= default;
+Brain::Brain() {
+    for (size_t i = 0; i < LAYER_NEURON_LENGTH; ++i)
+        layerNeurons[i] = new Neuron();
+    for (size_t i = 0; i < OUTPUT_SIZE; ++i)
+        outputNeurons[i] = new Neuron();
+};
 
-Brain::~Brain()
-= default;
+Brain::~Brain() = default;
 
 void Brain::activateNeuron(const NEURON_TYPE neuron_type, int index) {
     if (neuron_type == INPUT_NEURON) {
         this->inputUsed[index] = true;
         return;
     }
-    Neuron &neuron = this->layerNeurons[index];
-    if (neuron.isActive)
+    INeuron *neuron = this->layerNeurons[index];
+    if (neuron->isActive())
         return;
-    neuron.isActive = true;
-    for (const Neuron_link& neuron_link : neuron.inputs) {
+    neuron->setActive(true);
+    for (const Neuron_link& neuron_link : neuron->getInputs()) {
         activateNeuron(neuron_link.in_neuron, neuron_link.in_index);
     }
 }
@@ -33,8 +36,8 @@ void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGTH>& neurone_lin
         addToNeurons(neuron_link);
     }
 
-    for (const Neuron& neuron : this->outputNeurons) {
-        for (const Neuron_link& neuron_link : neuron.inputs) {
+    for (const INeuron *neuron : this->outputNeurons) {
+        for (const Neuron_link& neuron_link : neuron->getInputs()) {
             activateNeuron(neuron_link.in_neuron, neuron_link.in_index);
         }
     }
@@ -42,9 +45,9 @@ void Brain::setNeurons(const std::array<Neuron_link, GENOME_LENGTH>& neurone_lin
 
 void Brain::addToNeurons(const Neuron_link& neuron_link) {
     if (neuron_link.out_neuron == LAYER_NEURON)
-        this->layerNeurons[neuron_link.out_index].add_input(neuron_link);
+        this->layerNeurons[neuron_link.out_index]->add_input(neuron_link);
     else
-        this->outputNeurons[neuron_link.out_index].add_input(neuron_link);
+        this->outputNeurons[neuron_link.out_index]->add_input(neuron_link);
 }
 
 static float roundOutputResult(const float res) {
@@ -57,13 +60,13 @@ static float roundOutputResult(const float res) {
 
 void Brain::forward_cell(const vector<float> &input_list) {
 
+    std::array<float, LAYER_NEURON_LENGTH> layer_results{};
+    for (size_t i = 0; i < LAYER_NEURON_LENGTH; i++) {
+        if (this->layerNeurons[i]->isActive())
+            layer_results[i] = this->layerNeurons[i]->calculate_neuron(input_list, this->layer_values);
+    }
     for (int i = 0; i < OUTPUT_SIZE; i++) {
-        Neuron& neuron = this->outputNeurons[i];
-        neuron.calculate_neuron(input_list, this->layerNeurons);
-        this->outputResults[i] = roundOutputResult(neuron.value);
+        this->outputResults[i] = roundOutputResult(this->layerNeurons[i]->calculate_neuron(input_list, this->layer_values));
     }
-    for (Neuron& neuron : this->layerNeurons) {
-        if (neuron.isActive)
-            neuron.calculate_neuron(input_list, this->layerNeurons);
-    }
+    this->layer_values = layer_results;
 }

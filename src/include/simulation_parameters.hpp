@@ -11,7 +11,7 @@
 
 #define FPS 300
 #define RENDER true
-#define GEN_TO_START_RENDER 296
+#define GEN_TO_START_RENDER 200
 #define REPLAY_MODE false
 #define SAVE_FOLDER_PATH "../../save"
 

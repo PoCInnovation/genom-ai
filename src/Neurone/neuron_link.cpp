@@ -30,7 +30,7 @@ void Neuron_link::print() const {
 void Neuron_link::PrintInfo() const
 {
     printf("Neuron\n");
-    printf("active: %d\n", (int)this->active_neuron);
+    printf("active: %d\n", static_cast<int>(this->active_neuron));
     printf("in neuron index: %d\n", this->in_index);
     printf("out neuron index: %d\n", this->out_index);
     printf("weight: %f\n", this->weight);

@@ -1,5 +1,5 @@
 #include <vector>
-#include <cell.hpp>
+#include "cell.hpp"
 #include <random>
 #include "environnement.hpp"
 #include "simulation_parameters.hpp"
@@ -11,8 +11,8 @@ using namespace std;
 
 Environnement::Environnement()
 {
-    this->map = vector<Cell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
-    this->cell_list = vector<Cell *>();
+    this->map = vector<ICell *>(GRID_SIZE_X * GRID_SIZE_Y, nullptr);
+    this->cell_list = vector<ICell *>();
 
     this->obstacle_list = vector<bool>();
     this->obstacle_list.assign(GRID_SIZE_X * GRID_SIZE_Y, false);
@@ -31,14 +31,13 @@ void Environnement::clear()
     for (int y = 0; y < GRID_SIZE_Y; y++)
         for (int x = 0; x < GRID_SIZE_X; x++)
             SET_CELL(nullptr, x, y);
-    for (Cell* cell : this->cell_list)
+    for (ICell* cell : this->cell_list)
         delete cell;
     this->cell_list.clear();
 }
 
 void Environnement::create_cell_to_rand_pos()
 {
-    Cell *cell;
     int x = xorshift32() % GRID_SIZE_X;
     int y = xorshift32() % GRID_SIZE_Y;
 
@@ -46,12 +45,12 @@ void Environnement::create_cell_to_rand_pos()
         x = xorshift32() % GRID_SIZE_X;
         y = xorshift32() % GRID_SIZE_Y;
     }
-    cell = new Cell(x, y, Genome());
+    Cell *cell = new Cell(x, y, Genome());
     SET_CELL(cell, x, y);
     this->cell_list.push_back(cell);
 }
 
-void Environnement::add_cell_to_rand_pos(Cell *cell)
+void Environnement::add_cell_to_rand_pos(ICell *cell)
 {
     int x = xorshift32() % GRID_SIZE_X;
     int y = xorshift32() % GRID_SIZE_Y;
@@ -74,33 +73,33 @@ bool Environnement::is_pos_free(int x, int y)
     return GET_CELL(x, y) == nullptr;
 }
 
-void Environnement::move_cell(Cell *cell, int x_offset, int y_offset)
+void Environnement::move_cell(ICell *cell, int x_offset, int y_offset)
 {
-    if (this->is_pos_free(cell->x + x_offset, cell->y)) {
-        SET_CELL(cell, cell->x + x_offset, cell->y);
-        SET_CELL(nullptr, cell->x, cell->y);
-        cell->setPos(cell->x + x_offset, cell->y);
+    if (this->is_pos_free(cell->getXPos() + x_offset, cell->getYPos())) {
+        SET_CELL(cell, cell->getXPos() + x_offset, cell->getYPos());
+        SET_CELL(nullptr, cell->getXPos(), cell->getYPos());
+        cell->setPos(cell->getXPos() + x_offset, cell->getYPos());
     }
-    if (this->is_pos_free(cell->x, cell->y + y_offset)) {
-        SET_CELL(cell, cell->x, cell->y + y_offset);
-        SET_CELL(nullptr, cell->x, cell->y);
-        cell->setPos(cell->x, cell->y + y_offset);
+    if (this->is_pos_free(cell->getXPos(), cell->getYPos() + y_offset)) {
+        SET_CELL(cell, cell->getXPos(), cell->getYPos() + y_offset);
+        SET_CELL(nullptr, cell->getXPos(), cell->getYPos());
+        cell->setPos(cell->getXPos(), cell->getYPos() + y_offset);
     }
 }
 
-float Environnement::get_crowd(Cell *cell, int x_offset, int y_offset, int distance /* default = 3 */)
+float Environnement::get_crowd(ICell *cell, int x_offset, int y_offset, int distance /* default = 3 */)
 {
     float crowd = 0;
 
     for (int i = 1; i < distance + 1; i++)
-        if (!this->is_pos_free(cell->x + x_offset * i, cell->y + y_offset * i))
+        if (!this->is_pos_free(cell->getXPos() + x_offset * i, cell->getYPos() + y_offset * i))
             crowd++;
     return crowd / distance;
 }
 
 Environnement::~Environnement()
 {
-    for (Cell *cellPtr : cell_list) {
+    for (ICell *&cellPtr : cell_list) {
         delete cellPtr;
         cellPtr = nullptr;
     }

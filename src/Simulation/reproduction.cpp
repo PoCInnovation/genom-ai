@@ -2,101 +2,58 @@
 #include <random>
 #include <vector>
 #include "simulation_parameters.hpp"
-#include "cell.hpp"
+#include "ICell.hpp"
 #include "environnement.hpp"
 #include "genome.hpp"
-#include "custom_random.hpp" 
+#include "custom_random.hpp"
+#include "factory.hpp"
 
 using namespace std;
-
-static bool mutation_happen()
-{
-    return (xorshift32() % 10000) <= MUTATION_CHANCE;
-}
 
 static bool doRandomCell()
 {
     return (xorshift32() % 10000) <= RANDOM_NEW_CELL_CHANCE;
 }
 
-static Gene get_gene(int link_index, const Cell *parent1, const Cell *parent2)
-{
-    int rand_number = xorshift32();
-
-    if (rand_number % 2 == 0)
-        return parent1->genome.gen_list[link_index];
-    else
-        return parent2->genome.gen_list[link_index];
-}
-
-static void mutate(Gene &gen)
-{
-    const int index = xorshift32() % GEN_LENGTH;
-
-    gen[index] = !gen[index];
-}
-
-static std::array<Gene, GENOME_LENGTH> inherit_genes(const Cell *parent1, Cell *parent2)
-{
-    std::array<Gene, GENOME_LENGTH> gen_list{};
-
-    for (int i = 0; i < GENOME_LENGTH; i++){
-#if ONE_PARENT || !RANDOM_REPRODUCE
-        gen_list[i] = parent1->genome.gen_list[i];
-#else
-        gen_list[i] = get_gene(i, parent1, parent2);
-#endif
-        if (mutation_happen())
-            mutate(gen_list[i]);
-    }
-    return gen_list;
-}
-
 void linear_reproduce_cells(Environnement &env) {
-    vector<Cell *> new_cells_list;
+    vector<ICell *> new_cells_list;
     std::array<Gene, GENOME_LENGTH> gen_list{};
 
-    for (const Cell *cell : env.cell_list) {
-        gen_list = inherit_genes(cell, nullptr);
-        new_cells_list.push_back(new Cell(0, 0, Genome(gen_list)));
+    for (ICell *cell : env.cell_list) {
+        new_cells_list.push_back(cell->reproduce());
     }
     while (new_cells_list.size() < CELL_COUNT) {
         if (doRandomCell()) {
-            new_cells_list.push_back(new Cell(0, 0, Genome()));
+            new_cells_list.push_back(Factory::createRandomCell());
         } else {
-            gen_list = inherit_genes(env.cell_list[xorshift32() % env.cell_list.size()], nullptr);
-            new_cells_list.push_back(new Cell(0, 0, Genome(gen_list)));
+            new_cells_list.push_back(env.cell_list[xorshift32() % env.cell_list.size()]->reproduce());
         }
     }
     env.clear();
-    for (Cell *cell : new_cells_list)
-        env.add_cell_to_rand_pos(cell);
+    for (ICell *ICell : new_cells_list)
+        env.add_cell_to_rand_pos(ICell);
 }
 
 void random_reproduce_cells(Environnement &env)
 {
-    vector<Cell *> new_cell_list;
-    std::array<Gene, GENOME_LENGTH> gen_list{};
-    int index_parent_1;
-    int index_parent_2;
-    Cell *cell;
+    vector<ICell *> new_cell_list;
+    ICell *cell;
 
     for (int i = 0; i < CELL_COUNT; i++){
-        index_parent_1 = xorshift32() % env.cell_list.size();
+        int index_parent_1 = xorshift32() % env.cell_list.size();
 #if !ONE_PARENT
-        index_parent_2 = xorshift32() % env.cell_list.size();
+        int index_parent_2 = xorshift32() % env.cell_list.size();
         while (index_parent_2 == index_parent_1)
             index_parent_2 = xorshift32() % env.cell_list.size();
-        gen_list = inherit_genes(env.cell_list[index_parent_1], env.cell_list[index_parent_2]);
+        cell = env.cell_list[index_parent_1]->reproduce(env.cell_list[index_parent_2]);
 #else
-        gen_list = inherit_genes(env.cell_list[index_parent_1], nullptr);
+        cell = env.cell_list[index_parent_1].reproduce();
 #endif
-        cell = new Cell(0, 0, Genome(gen_list));
         new_cell_list.push_back(cell);
     }
     env.clear();
-    for (Cell *cell : new_cell_list)
-        env.add_cell_to_rand_pos(cell);
+    for (ICell *new_cell : new_cell_list)
+        env.add_cell_to_rand_pos(new_cell);
 }
 
 void reproduce_cells(Environnement &env) {

@@ -53,7 +53,7 @@ ofstream get_save(const string& filename)
 int save_gen(Environnement &env)
 {
     ofstream file = get_save("save_gen.txt");
-
+/*
     for (int i = 0; i < env.cell_list.size(); i++) {
         for (int j = 0; j < env.cell_list[i]->genome.gen_list.size(); j++) {
             file << gene_to_int(env.cell_list[i]->genome.gen_list[j]);
@@ -62,12 +62,12 @@ int save_gen(Environnement &env)
         }
         if (i != env.cell_list.size() - 1)
             file << "\n";
-    }
+    }*/
     file.close();
     return 0;
 }
 
-vector<Cell *> load_cell(string filename)
+vector<Cell *> load_cell(const string& filename)
 {
     array<Gene, GENOME_LENGTH> gene_list = {};
     vector<Cell *> cell_list = {};
