@@ -20,6 +20,7 @@ class Cell : virtual public ICell
         void setPos(int x, int y) override;
         int getXPos() const override {return x;}
         int getYPos() const override {return y;}
+        const Genome &getGenome() const override {return genome;}
         sf::Color getColor() const override {return color;}
         ~Cell() override;
         ICell *reproduce() override;

@@ -11,8 +11,8 @@
 
 #define FPS 300
 #define RENDER true
-#define GEN_TO_START_RENDER 200
-#define REPLAY_MODE false
+#define GEN_TO_START_RENDER 300
+#define REPLAY_MODE true
 #define SAVE_FOLDER_PATH "../../save"
 
 #define MUTATION_CHANCE 100 // value is chance over 10 000, so 100 is 1%

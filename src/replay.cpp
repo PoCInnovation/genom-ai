@@ -7,6 +7,7 @@
 #include "environnement.hpp"
 #include "render.hpp"
 #include "cell.hpp"
+#include "factory.hpp"
 #include "loop.hpp"
 
 
@@ -53,24 +54,23 @@ ofstream get_save(const string& filename)
 int save_gen(Environnement &env)
 {
     ofstream file = get_save("save_gen.txt");
-/*
     for (int i = 0; i < env.cell_list.size(); i++) {
-        for (int j = 0; j < env.cell_list[i]->genome.gen_list.size(); j++) {
-            file << gene_to_int(env.cell_list[i]->genome.gen_list[j]);
-            if (j != env.cell_list[i]->genome.gen_list.size() - 1)
+        for (int j = 0; j < env.cell_list[i]->getGenome().gen_list.size(); j++) {
+            file << gene_to_int(env.cell_list[i]->getGenome().gen_list[j]);
+            if (j != env.cell_list[i]->getGenome().gen_list.size() - 1)
                 file << " ";
         }
         if (i != env.cell_list.size() - 1)
             file << "\n";
-    }*/
+    }
     file.close();
     return 0;
 }
 
-vector<Cell *> load_cell(const string& filename)
+vector<ICell *> load_cell(const string& filename)
 {
     array<Gene, GENOME_LENGTH> gene_list = {};
-    vector<Cell *> cell_list = {};
+    vector<ICell *> cell_list = {};
 #if __unix__
     std::ifstream file(string(SAVE_FOLDER_PATH) + "/" + filename);
 #else
@@ -83,7 +83,7 @@ vector<Cell *> load_cell(const string& filename)
         std::istringstream line_stream(line);
         for (int i = 0; line_stream >> num; i++)
             gene_list[i] = int_to_gene(num);
-        cell_list.push_back(new Cell(0, 0, Genome(gene_list)));
+        cell_list.push_back(Factory::createRandomCell(Genome(gene_list)));
     }
     file.close();
     return cell_list;
@@ -94,11 +94,11 @@ int main()
 {
     sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "SFML works!");
     Environnement env = Environnement();
-    vector<Cell *> cell_list;
+    vector<ICell *> cell_list;
 
     cell_list = load_cell("save_gen.txt");
     while (1) {
-        for (Cell *cell : cell_list)
+        for (ICell *cell : cell_list)
             env.add_cell_to_rand_pos(cell);
         for (int j = 0; j < STEP_PER_GEN; j++){
             compute_step(env);
